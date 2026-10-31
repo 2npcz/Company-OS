@@ -728,3 +728,134 @@ export interface AttendanceSyncLog {
   completedAt?: string;
 }
 
+// ============================================================
+// Phase 3: Work Management (Projects, Tasks, Kanban, Workload)
+// ============================================================
+
+export type ProjectStatus = 'PLANNING' | 'ACTIVE' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED';
+export type ProjectPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+export type ProjectMemberRole = 'LEAD' | 'MEMBER' | 'VIEWER';
+
+export type TaskStatus = 'BACKLOG' | 'TODO' | 'IN_PROGRESS' | 'REVIEW' | 'BLOCKED' | 'COMPLETED' | 'CANCELLED';
+export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+
+export interface Project {
+  id: string;
+  organizationId: string;
+  name: string;
+  code?: string;
+  description?: string;
+  ownerId?: string;
+  ownerName?: string;
+  status: ProjectStatus;
+  priority: ProjectPriority;
+  startDate?: string;
+  targetDate?: string;
+  completedDate?: string;
+  budget?: number;
+  progress: number;
+  tags?: string[];
+  memberCount?: number;
+  taskCount?: number;
+  completedTaskCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ProjectMember {
+  id: string;
+  organizationId: string;
+  projectId: string;
+  employeeId: string;
+  employeeName?: string;
+  employeeAvatar?: string;
+  role: ProjectMemberRole;
+  joinedAt?: string;
+}
+
+export interface TaskSubtask {
+  id: string;
+  organizationId: string;
+  taskId: string;
+  title: string;
+  isCompleted: boolean;
+  assigneeId?: string;
+  assigneeName?: string;
+  dueDate?: string;
+  displayOrder: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TaskComment {
+  id: string;
+  organizationId: string;
+  taskId: string;
+  authorId: string;
+  authorName?: string;
+  authorAvatar?: string;
+  content: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TaskWorkUpdate {
+  id: string;
+  organizationId: string;
+  taskId: string;
+  employeeId: string;
+  employeeName?: string;
+  summary: string;
+  hoursSpent?: number;
+  progressPercent?: number;
+  blockers?: string;
+  date: string;
+  createdAt?: string;
+}
+
+export interface Task {
+  id: string;
+  organizationId: string;
+  projectId?: string;
+  projectName?: string;
+  departmentId?: string;
+  teamId?: string;
+  title: string;
+  description?: string;
+  assigneeId?: string;
+  assigneeName?: string;
+  assigneeAvatar?: string;
+  creatorId?: string;
+  creatorName?: string;
+  priority: TaskPriority;
+  status: TaskStatus;
+  startDate?: string;
+  dueDate?: string;
+  estimatedHours?: number;
+  actualHours?: number;
+  progress: number;
+  tags?: string[];
+  blockedReason?: string;
+  displayOrder: number;
+  subtasks?: TaskSubtask[];
+  comments?: TaskComment[];
+  workUpdates?: TaskWorkUpdate[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TaskWorkloadSummary {
+  employeeId: string;
+  employeeName: string;
+  employeeAvatar?: string;
+  department?: string;
+  totalTasks: number;
+  wipTasks: number;
+  overdueTasks: number;
+  blockedTasks: number;
+  completedTasks: number;
+  estimatedHoursTotal: number;
+  actualHoursTotal: number;
+}
+
+

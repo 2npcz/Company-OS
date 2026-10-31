@@ -13,9 +13,10 @@ import { departmentService } from './department.service';
 import { roleService } from './role.service';
 import { jobArchitectureService } from './jobArchitecture.service';
 import { deviceService } from './device.service';
+import { workService } from './work.service';
 import { apiClient } from './api.client';
 
-export { departmentService, roleService, jobArchitectureService, deviceService };
+export { departmentService, roleService, jobArchitectureService, deviceService, workService };
 
 export const hrService = {
   subscribe: apiClient.subscribe.bind(apiClient),
@@ -150,4 +151,7 @@ export const hrService = {
 
   // Attendance Engine & Biometric Hardware (Phase 2)
   deviceService,
+
+  // Work Management (Phase 3)
+  workService,
 };

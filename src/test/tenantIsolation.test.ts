@@ -45,6 +45,12 @@ const TENANT_TABLES = [
   'device_user_mappings',
   'attendance_raw_events',
   'attendance_sync_logs',
+  'projects',
+  'project_members',
+  'tasks',
+  'task_subtasks',
+  'task_comments',
+  'task_work_updates',
 ] as const;
 
 /**

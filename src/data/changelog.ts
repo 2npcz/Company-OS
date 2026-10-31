@@ -15,6 +15,19 @@ export interface ChangelogRelease {
 
 export const changelog: ChangelogRelease[] = [
   {
+    date: '2026-10-31',
+    title: 'Phase 3 — Work Management (Projects, Tasks, Kanban, Subtasks, Work Updates & Workload Pacing)',
+    entries: [
+      { type: 'feature', description: 'Architected complete Work Management schema: projects, project_members, tasks, task_subtasks, task_comments, and task_work_updates with strict multi-tenant RLS isolation.' },
+      { type: 'feature', description: 'Implemented interactive Kanban Board with 6 workflow columns (Backlog, To Do, In Progress, Review, Blocked, Completed), WIP pacing metrics, and quick stage advancement.' },
+      { type: 'feature', description: 'Added Projects Hub with progress tracking, member management, target dates, tags, and budget tracking dedicated to EcoGlobal Trading BD.' },
+      { type: 'feature', description: 'Created Task Detail Modal with interactive subtask checklist, dynamic progress auto-calculation, daily work update logging, and team comment discussions.' },
+      { type: 'feature', description: 'Added Team Workload Distribution view tracking Work-In-Progress (WIP) as a pacing and bottleneck prevention mechanism without surveillance bias.' },
+      { type: 'feature', description: 'Introduced database migration 0040_work_management_projects_and_tasks.sql and recompiled consolidated setup-complete-company-os-database.sql.' },
+      { type: 'improvement', description: 'Added deep link navigation (#/tasks, #/projects, #/work) and integrated Work & Tasks into the primary application sidebar.' },
+    ],
+  },
+  {
     date: '2026-10-08',
     title: 'Phase 2 — Attendance Engine & Biometric Hardware Integration (ZKTeco MB460)',
     entries: [

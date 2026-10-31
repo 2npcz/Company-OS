@@ -54,6 +54,7 @@ const Upgrade = lazyWithReload(() => import('./pages/Upgrade'));
 const PerformanceReview = lazyWithReload(() => import('./pages/PerformanceReview'));
 const Announcements = lazyWithReload(() => import('./pages/Announcements'));
 const AdminNotifications = lazyWithReload(() => import('./pages/AdminNotifications'));
+const WorkManagement = lazyWithReload(() => import('./pages/WorkManagement'));
 
 import { navigateTo } from './utils/seo';
 import { getCurrentRoute, navigateToRoute, replaceRoute } from './utils/deeplink';
@@ -550,6 +551,16 @@ const AppContent: React.FC = () => {
     }
 
     switch (currentPath) {
+      case 'tasks':
+      case 'projects':
+      case 'work':
+        return (
+          <WorkManagement
+            user={user}
+            initialTab={navParams?.tab || (currentPath === 'projects' ? 'PROJECTS' : 'KANBAN')}
+            onNavigate={handleNavigate}
+          />
+        );
       case 'dashboard': return <Dashboard user={user} onNavigate={handleNavigate} />;
       case 'super-admin': return <SuperAdmin user={user} onNavigate={handleNavigate} />;
       case 'upgrade':

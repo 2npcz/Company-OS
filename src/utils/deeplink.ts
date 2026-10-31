@@ -84,6 +84,9 @@ const ROUTE_TABLE: RouteEntry[] = [
 
   // -- Simple static routes --
   { regex: /^#\/dashboard\/?$/,               path: 'dashboard',       paramNames: [] },
+  { regex: /^#\/tasks\/?$/,                   path: 'tasks',           paramNames: [] },
+  { regex: /^#\/projects\/?$/,                path: 'projects',        paramNames: [] },
+  { regex: /^#\/work\/?$/,                    path: 'tasks',           paramNames: [] },
   { regex: /^#\/reviews\/?$/,                 path: 'performance-review', paramNames: [] },
   { regex: /^#\/reports\/?$/,                 path: 'reports',         paramNames: [] },
   { regex: /^#\/announcements\/?$/,           path: 'announcements',   paramNames: [] },
@@ -106,6 +109,9 @@ type HashBuilder = (params: Record<string, any> | null | undefined) => string | 
 
 const REVERSE_MAP: Record<string, HashBuilder> = {
   'dashboard':            () => '#/dashboard',
+  'tasks':                () => '#/tasks',
+  'projects':             () => '#/projects',
+  'work':                 () => '#/tasks',
   'employees':            (p) => p?.selectedEmployeeId ? `#/employee/${p.selectedEmployeeId}` : '#/employees',
   'attendance':           (p) => {
     if (!p || !p.autoStart) return '#/attendance/clock-in';
@@ -212,8 +218,9 @@ function parseHash(raw: string): DeepLinkRoute | null {
   if (hash.includes('error=')) return null;
 
   // Match against route table (first-match wins)
+  const fullHash = '#' + hash;
   for (const entry of ROUTE_TABLE) {
-    const match = hash.match(entry.regex);
+    const match = fullHash.match(entry.regex) || hash.match(entry.regex);
     if (match) {
       const params: Record<string, string> = {};
       for (let i = 0; i < entry.paramNames.length; i++) {
