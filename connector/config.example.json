@@ -1,0 +1,18 @@
+{
+  "supabaseUrl": "https://vxxhziyepxddxiptfqab.supabase.co",
+  "supabaseKey": "YOUR_SUPABASE_SERVICE_ROLE_KEY_OR_ANON_KEY",
+  "organizationId": "YOUR_ORGANIZATION_UUID",
+  "syncIntervalSeconds": 30,
+  "heartbeatIntervalSeconds": 60,
+  "devices": [
+    {
+      "id": "DEVICE_UUID_FROM_COMPANY_OS",
+      "name": "Head Office Entrance",
+      "model": "MB460",
+      "ip": "192.168.1.201",
+      "port": 4370,
+      "commKey": 0,
+      "timeoutMs": 5000
+    }
+  ]
+}

@@ -73,8 +73,9 @@ const ROUTE_TABLE: RouteEntry[] = [
   // -- Attendance logs (own) --
   { regex: /^#\/attendance\/?$/,              path: 'attendance-logs', paramNames: [] },
 
-  // -- Attendance audit --
+  // -- Attendance audit & devices --
   { regex: /^#\/attendance-audit\/?$/,        path: 'attendance-audit', paramNames: [] },
+  { regex: /^#\/attendance-devices\/?$/,      path: 'attendance-devices', paramNames: [] },
 
   // -- Leave (specific request) --
   { regex: /^#\/leave\/([^/]+)$/,             path: 'leave',           paramNames: ['openLeaveId'] },
@@ -117,6 +118,7 @@ const REVERSE_MAP: Record<string, HashBuilder> = {
   },
   'attendance-logs':      (p) => p?.filterEmployeeId ? `#/attendance/${p.filterEmployeeId}` : '#/attendance',
   'attendance-audit':     () => '#/attendance-audit',
+  'attendance-devices':   () => '#/attendance-devices',
   'leave':                (p) => p?.openLeaveId ? `#/leave/${p.openLeaveId}` : '#/leaves',
   'performance-review':   () => '#/reviews',
   'reports':              () => '#/reports',

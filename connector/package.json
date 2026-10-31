@@ -1,0 +1,22 @@
+{
+  "name": "company-os-zkteco-connector",
+  "version": "1.0.0",
+  "description": "Company OS — Local Biometric Attendance Connector for ZKTeco MB460 & Compatible Terminals",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test-connection": "tsx src/index.ts --test-connection",
+    "sync-now": "tsx src/index.ts --sync-now"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3"
+  }
+}

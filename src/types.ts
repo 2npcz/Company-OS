@@ -642,3 +642,89 @@ export interface EmployeeJobAssignment {
   endDate?: string;
   isPrimary: boolean;
 }
+
+// ============================================================
+// ATTENDANCE ENGINE & BIOMETRIC HARDWARE (PHASE 2)
+// ============================================================
+
+export type DeviceConnectionStatus = 'ONLINE' | 'OFFLINE' | 'WARNING' | 'SYNCING';
+export type BiometricVerificationMethod = 'FACE' | 'FINGERPRINT' | 'PASSWORD' | 'CARD' | 'MANUAL' | 'LOCATION_SELFIE';
+export type AttendanceEventType = 'CHECK_IN' | 'CHECK_OUT' | 'BREAK_OUT' | 'BREAK_IN' | 'OVERTIME_IN' | 'OVERTIME_OUT' | 'UNKNOWN';
+
+export interface AttendanceDevice {
+  id: string;
+  organizationId: string;
+  name: string;
+  deviceType: string;
+  model: string;
+  serialNumber?: string;
+  locationName: string;
+  ipAddress: string;
+  port: number;
+  commKey?: string;
+  connectionStatus: DeviceConnectionStatus;
+  lastSyncAt?: string;
+  lastHeartbeatAt?: string;
+  isActive: boolean;
+  timezone?: string;
+  metadata?: Record<string, any>;
+  created?: string;
+  updated?: string;
+  // Computed stats
+  totalEventsCount?: number;
+  mappedUsersCount?: number;
+}
+
+export interface DeviceUserMapping {
+  id: string;
+  organizationId: string;
+  deviceId: string;
+  deviceName?: string;
+  deviceUserId: string; // Terminal enrollment PIN
+  employeeId: string;
+  employeeName?: string;
+  employeeDesignation?: string;
+  employeeAvatar?: string;
+  cardNumber?: string;
+  privilege: 'USER' | 'ENROLLER' | 'ADMIN' | 'SUPER_ADMIN';
+  isSynced: boolean;
+  created?: string;
+  updated?: string;
+}
+
+export interface AttendanceRawEvent {
+  id: string;
+  organizationId: string;
+  deviceId?: string;
+  deviceName?: string;
+  deviceUserId: string;
+  employeeId?: string;
+  employeeName?: string;
+  eventTimestamp: string;
+  eventType: AttendanceEventType;
+  verificationMethod: BiometricVerificationMethod;
+  source: 'DEVICE' | 'LOCAL_CONNECTOR' | 'WEB' | 'MOBILE' | 'MANUAL_IMPORT';
+  receivedAt: string;
+  externalEventId?: string;
+  rawPayload?: Record<string, any>;
+  processed: boolean;
+  processedAt?: string;
+  sessionId?: string;
+  created?: string;
+}
+
+export interface AttendanceSyncLog {
+  id: string;
+  organizationId: string;
+  deviceId?: string;
+  deviceName?: string;
+  syncType: 'HEARTBEAT' | 'PULL_EVENTS' | 'PUSH_USERS' | 'MANUAL' | 'CONNECTOR_STATUS';
+  status: 'SUCCESS' | 'PARTIAL' | 'FAILED';
+  eventsReceived: number;
+  eventsIngested: number;
+  eventsDuplicate: number;
+  errorMessage?: string;
+  startedAt: string;
+  completedAt?: string;
+}
+

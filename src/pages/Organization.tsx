@@ -22,6 +22,7 @@ import { OrgNotifications } from '../components/organization/OrgNotifications';
 import { OrgDepartments } from '../components/organization/OrgDepartments';
 import { OrgJobArchitecture } from '../components/organization/OrgJobArchitecture';
 import { OrgRolesPermissions } from '../components/organization/OrgRolesPermissions';
+import { AttendanceDeviceDashboard } from '../components/attendance/AttendanceDeviceDashboard';
 import HelpButton from '../components/onboarding/HelpButton';
 
 type OrgTab =
@@ -32,6 +33,7 @@ type OrgTab =
   | 'STRUCTURE'
   | 'PLACEMENT'
   | 'SHIFTS'
+  | 'DEVICES'
   | 'WORKFLOW'
   | 'LEAVES'
   | 'HOLIDAYS'
@@ -251,9 +253,9 @@ const Organization: React.FC<OrganizationProps> = ({ initialTab }) => {
         <div>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 px-1">Structure & Architecture</p>
           <div className="flex gap-2 p-1 bg-slate-100 rounded-xl overflow-x-auto no-scrollbar">
-            {(['DEPARTMENTS', 'TEAMS', 'JOB_ARCHITECTURE', 'PERMISSIONS', 'STRUCTURE', 'PLACEMENT', 'SHIFTS'] as OrgTab[]).map(tab => (
+            {(['DEPARTMENTS', 'TEAMS', 'JOB_ARCHITECTURE', 'PERMISSIONS', 'STRUCTURE', 'PLACEMENT', 'SHIFTS', 'DEVICES'] as OrgTab[]).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`flex-1 md:flex-1 min-w-[90px] py-3 px-2 rounded-lg text-[10px] md:text-xs font-semibold uppercase tracking-widest transition-all whitespace-nowrap flex items-center justify-center gap-1 ${activeTab === tab ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
-                {tab === 'JOB_ARCHITECTURE' ? 'Job Architecture' : tab.replace('_', ' ')}
+                {tab === 'JOB_ARCHITECTURE' ? 'Job Architecture' : tab === 'DEVICES' ? 'Biometric Terminals' : tab.replace('_', ' ')}
                 {activeTab === tab && <HelpButton helpPointId={`org.${tab.toLowerCase()}`} size={12} variant="inline" />}
               </button>
             ))}
@@ -336,6 +338,13 @@ const Organization: React.FC<OrganizationProps> = ({ initialTab }) => {
              onDeleteShift={(i) => handleDelete('SHIFT' as any, i)}
              onAddOverride={() => openModal('SHIFT_OVERRIDE')}
              onDeleteOverride={(i) => handleDelete('SHIFT_OVERRIDE' as any, i)}
+           />
+        )}
+
+        {activeTab === 'DEVICES' && (
+           <AttendanceDeviceDashboard
+             employees={employees}
+             canWrite={canWrite}
            />
         )}
 

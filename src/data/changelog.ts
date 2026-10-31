@@ -16,6 +16,19 @@ export interface ChangelogRelease {
 export const changelog: ChangelogRelease[] = [
   {
     date: '2026-10-08',
+    title: 'Phase 2 — Attendance Engine & Biometric Hardware Integration (ZKTeco MB460)',
+    entries: [
+      { type: 'feature', description: 'Engineered hardware boundary integration for ZKTeco MB460 biometric terminals communicating over LAN TCP (port 4370) via standalone local Node.js/TypeScript connector daemon.' },
+      { type: 'feature', description: 'Created persistent local queue in connector daemon providing offline punch durability and automatic recovery during network or cloud service outages.' },
+      { type: 'feature', description: 'Added immutable attendance_raw_events table with unique deduplication constraint (org_id, device_id, external_event_id) preserving pristine biometric punch audits.' },
+      { type: 'feature', description: 'Implemented device_user_mappings linking biometric hardware user IDs / PINs to internal employee records with multi-factor verification tags (fingerprint, face, card, password).' },
+      { type: 'feature', description: 'Built attendance calculation engine (deviceService.calculateAttendanceSessions) compiling raw biometric punches into first-in / last-out daily attendance records with shift punctuality.' },
+      { type: 'feature', description: 'Added comprehensive AttendanceDeviceDashboard with live terminal metrics, sync logs, raw event audits, user mapping management, and punch simulation modal.' },
+      { type: 'feature', description: 'Created database migration 0039_attendance_devices_and_raw_events.sql and recompiled consolidated setup script scripts/setup-complete-company-os-database.sql.' },
+    ],
+  },
+  {
+    date: '2026-10-08',
     title: 'Phase 7 — Company Structure, Job Architecture & Dynamic RBAC',
     entries: [
       { type: 'feature', description: 'Established complete organizational hierarchy: Company (organizations) → Departments (hierarchical with parent-child support, managers, codes) → Teams → Employees.' },

@@ -573,7 +573,8 @@ const AppContent: React.FC = () => {
           </ErrorBoundary>
         );
       case 'attendance-logs': return <AttendanceLogs user={user} viewMode="MY" filterEmployeeId={navParams?.filterEmployeeId} />;
-      case 'attendance-audit': return <AttendanceLogs user={user} viewMode="AUDIT" />;
+      case 'attendance-audit': return <AttendanceLogs user={user} viewMode="AUDIT" initialTab={navParams?.initialTab || 'RECORDS'} />;
+      case 'attendance-devices': return <AttendanceLogs user={user} viewMode="AUDIT" initialTab="HARDWARE" />;
       case 'leave': return <Leave user={user} autoOpen={navParams?.autoOpen} openLeaveId={navParams?.openLeaveId} />;
       case 'announcements': return <Announcements user={user} />;
       case 'admin-notifications': return <AdminNotifications user={user} />;

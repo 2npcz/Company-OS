@@ -3,19 +3,21 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   Clock, MapPin, History, Search, RefreshCw, ChevronRight, ExternalLink,
   Camera, X, SortAsc, SortDesc, Users, Building, Trash2, Save,
-  Calculator, UserX
+  Calculator, UserX, Cpu
 } from 'lucide-react';
 import { hrService } from '../services/hrService';
 import { Attendance, Employee, AppConfig } from '../types';
 import { consolidateAttendance, calculatePunctuality, calculateDuration } from '../utils/attendanceUtils';
 import HelpButton from '../components/onboarding/HelpButton';
 import { useToast } from '../context/ToastContext';
+import { AttendanceDeviceDashboard } from '../components/attendance/AttendanceDeviceDashboard';
 
 interface AttendanceLogsProps {
   user: any;
   viewMode?: 'MY' | 'AUDIT';
   /** When provided, pre-filters attendance to this employee ID (deep link) */
   filterEmployeeId?: string;
+  initialTab?: 'RECORDS' | 'HARDWARE';
 }
 
 const LogSkeleton = () => (
@@ -31,11 +33,19 @@ const LogSkeleton = () => (
   </div>
 );
 
-const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', filterEmployeeId }) => {
+const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', filterEmployeeId, initialTab = 'RECORDS' }) => {
   const { showToast } = useToast();
   const isAdmin = user.role === 'ADMIN' || user.role === 'HR';
   const isManager = user.role === 'MANAGER';
   const isAuditMode = viewMode === 'AUDIT' && (isAdmin || isManager);
+  
+  const [auditTab, setAuditTab] = useState<'RECORDS' | 'HARDWARE'>(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setAuditTab(initialTab);
+    }
+  }, [initialTab]);
   
   const [logs, setLogs] = useState<Attendance[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -291,7 +301,44 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
         </div>
       </header>
 
-      {/* Filter Bar */}
+      {isAdmin && isAuditMode && (
+        <div className="flex bg-slate-100 p-1.5 rounded-2xl w-fit border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setAuditTab('RECORDS')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
+              auditTab === 'RECORDS'
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Clock size={16} />
+            Attendance Records
+          </button>
+          <button
+            type="button"
+            onClick={() => setAuditTab('HARDWARE')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
+              auditTab === 'HARDWARE'
+                ? 'bg-white text-primary shadow-sm'
+                : 'text-slate-500 hover:text-primary'
+            }`}
+          >
+            <Cpu size={16} />
+            Biometric Terminals & Devices
+          </button>
+        </div>
+      )}
+
+      {isAdmin && isAuditMode && auditTab === 'HARDWARE' ? (
+        <AttendanceDeviceDashboard
+          employees={employees}
+          canWrite={isAdmin}
+          onRefreshParentAttendance={fetchInitialData}
+        />
+      ) : (
+        <>
+          {/* Filter Bar */}
       <div className="bg-white p-6 rounded-xl border border-slate-50 shadow-sm space-y-4">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="relative flex-[2]">
@@ -631,6 +678,8 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
              </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );
