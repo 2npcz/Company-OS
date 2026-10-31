@@ -3897,16 +3897,16 @@ create policy "task_work_updates_modify" on public.task_work_updates for all usi
 -- ============================================================
 -- SEED WORK MANAGEMENT PERMISSIONS
 -- ============================================================
-insert into public.permissions (code, module, name, description)
+insert into public.permissions (module, action, code, name, description)
 values
-  ('projects.view', 'work', 'View Projects', 'View organization project directory and details'),
-  ('projects.create', 'work', 'Create Projects', 'Create new organization projects'),
-  ('projects.edit', 'work', 'Edit Projects', 'Edit project details, milestones, and status'),
-  ('projects.delete', 'work', 'Delete Projects', 'Delete projects'),
-  ('tasks.view', 'work', 'View Tasks', 'View company, team, or assigned tasks'),
-  ('tasks.create', 'work', 'Create Tasks', 'Create new tasks and assign to team members'),
-  ('tasks.edit', 'work', 'Edit Tasks', 'Edit tasks, update status, and log progress'),
-  ('tasks.delete', 'work', 'Delete Tasks', 'Delete tasks'),
-  ('tasks.review', 'work', 'Review Tasks', 'Approve and review submitted task deliverables')
+  ('work', 'view', 'projects:view', 'View Projects', 'View organization project directory and details'),
+  ('work', 'create', 'projects:create', 'Create Projects', 'Create new organization projects'),
+  ('work', 'edit', 'projects:edit', 'Edit Projects', 'Edit project details, milestones, and status'),
+  ('work', 'delete', 'projects:delete', 'Delete Projects', 'Delete projects'),
+  ('work', 'view', 'tasks:view', 'View Tasks', 'View company, team, or assigned tasks'),
+  ('work', 'create', 'tasks:create', 'Create Tasks', 'Create new tasks and assign to team members'),
+  ('work', 'edit', 'tasks:edit', 'Edit Tasks', 'Edit tasks, update status, and log progress'),
+  ('work', 'delete', 'tasks:delete', 'Delete Tasks', 'Delete tasks'),
+  ('work', 'review', 'tasks:review', 'Review Tasks', 'Approve and review submitted task deliverables')
 on conflict (code) do nothing;
 
