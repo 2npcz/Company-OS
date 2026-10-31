@@ -34,6 +34,17 @@ const TENANT_TABLES = [
   'settings',
   'organizations',
   'audit_logs',
+  'departments',
+  'roles',
+  'job_roles',
+  'job_descriptions',
+  'skills',
+  'competencies',
+  'kpis',
+  'attendance_devices',
+  'device_user_mappings',
+  'attendance_raw_events',
+  'attendance_sync_logs',
 ] as const;
 
 /**

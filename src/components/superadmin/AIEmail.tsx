@@ -12,6 +12,7 @@ import BulkEmailManager from './BulkEmailManager';
 import ModelPicker from './ModelPicker';
 import EmailComposer from './EmailComposer';
 import { useToast } from '../../context/ToastContext';
+import { sanitizeHtml } from '../../utils/sanitize';
 
 type Tab = 'templates' | 'ask' | 'history' | 'suppressions' | 'bulk';
 
@@ -575,7 +576,7 @@ const AIEmail: React.FC = () => {
                     ) : (
                       <div
                         className="p-4 text-sm text-slate-700 max-w-none [&_a]:text-primary [&_p]:mb-2"
-                        dangerouslySetInnerHTML={{ __html: preview.html }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(preview.html) }}
                       />
                     )}
                   </div>

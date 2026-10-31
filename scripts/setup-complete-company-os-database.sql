@@ -3365,7 +3365,12 @@ create policy "job_descriptions_select" on public.job_descriptions for select us
 );
 drop policy if exists "job_descriptions_modify" on public.job_descriptions;
 create policy "job_descriptions_modify" on public.job_descriptions for all using (
-  public.is_super_admin() or (public.auth_role() in ('ADMIN','HR'))
+  public.is_super_admin() or (
+    public.auth_role() in ('ADMIN','HR') and exists (
+      select 1 from public.job_roles jr 
+      where jr.id = job_descriptions.job_role_id and jr.organization_id = public.auth_org_id()
+    )
+  )
 );
 
 alter table public.skills enable row level security;
