@@ -62,6 +62,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
 
   return (
     <aside className="w-80 bg-white h-screen flex flex-col border-r border-slate-100 shadow-sm relative z-50">
+      {/* Company Brand Header */}
+      <div className="px-6 py-4 flex items-center gap-3 border-b border-slate-100/80 bg-slate-50/50">
+        <img src="/img/logo.png" alt="EcoGlobal Logo" className="w-9 h-9 object-contain rounded-lg" />
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xs font-bold text-slate-900 truncate tracking-tight">EcoGlobal Trading BD</h1>
+          <p className="text-[10px] font-semibold text-indigo-600 uppercase tracking-wider">Company OS</p>
+        </div>
+      </div>
+
       {/* Profile Header */}
       <div className="p-10 pb-8 flex flex-col items-center text-center">
         <div className="relative mb-4">

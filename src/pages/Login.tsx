@@ -33,9 +33,9 @@ interface LoginProps {
 const BrandLogo: React.FC<{ companyName?: string }> = ({ companyName = 'EcoGlobal Trading BD' }) => (
   <div className="flex flex-col items-center justify-center gap-5">
     <div className="relative w-24 h-24 md:w-28 md:h-28">
-      <div className="absolute inset-0 bg-emerald-500/20 blur-[40px] rounded-full -z-10 opacity-70"></div>
-      <div className="relative w-full h-full bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-900 rounded-[2rem] shadow-2xl flex items-center justify-center p-5 text-white border border-slate-700/50">
-        <Globe size={46} className="text-emerald-400 stroke-[1.8]" />
+      <div className="absolute inset-0 bg-sky-500/20 blur-[40px] rounded-full -z-10 opacity-70"></div>
+      <div className="relative w-full h-full bg-white rounded-[2rem] shadow-xl flex items-center justify-center p-3 border border-slate-100">
+        <img src="/img/logo.png" alt={companyName} className="w-full h-full object-contain" />
       </div>
     </div>
     <div className="text-center px-4">

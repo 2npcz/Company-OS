@@ -68,8 +68,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, currentPath, onNaviga
               </button>
 
               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                 <div className="p-1.5 bg-white rounded-xl border border-primary/20 shadow-sm overflow-hidden md:hidden flex-shrink-0">
-                    <img src="./img/logo.webp" className="w-10 h-10 object-contain" alt="Logo" />
+                 <div className="p-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden md:hidden flex-shrink-0">
+                    <img src="/img/logo.png" className="w-9 h-9 object-contain" alt="Logo" />
                  </div>
                  <h2 className="font-bold text-lg tracking-tight text-slate-900 md:hidden truncate min-w-0">EcoGlobal Trading BD</h2>
                  <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full border bg-slate-50 text-slate-400 border-slate-100">
