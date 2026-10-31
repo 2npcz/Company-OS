@@ -55,6 +55,7 @@ const PerformanceReview = lazyWithReload(() => import('./pages/PerformanceReview
 const Announcements = lazyWithReload(() => import('./pages/Announcements'));
 const AdminNotifications = lazyWithReload(() => import('./pages/AdminNotifications'));
 const WorkManagement = lazyWithReload(() => import('./pages/WorkManagement'));
+const CompanyCalendar = lazyWithReload(() => import('./pages/CompanyCalendar'));
 
 import { navigateTo } from './utils/seo';
 import { getCurrentRoute, navigateToRoute, replaceRoute } from './utils/deeplink';
@@ -561,6 +562,7 @@ const AppContent: React.FC = () => {
             onNavigate={handleNavigate}
           />
         );
+      case 'calendar': return <CompanyCalendar user={user} onNavigate={handleNavigate} />;
       case 'dashboard': return <Dashboard user={user} onNavigate={handleNavigate} />;
       case 'super-admin': return <SuperAdmin user={user} onNavigate={handleNavigate} />;
       case 'upgrade':

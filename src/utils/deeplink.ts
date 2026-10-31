@@ -84,6 +84,7 @@ const ROUTE_TABLE: RouteEntry[] = [
 
   // -- Simple static routes --
   { regex: /^#\/dashboard\/?$/,               path: 'dashboard',       paramNames: [] },
+  { regex: /^#\/calendar\/?$/,                path: 'calendar',        paramNames: [] },
   { regex: /^#\/tasks\/?$/,                   path: 'tasks',           paramNames: [] },
   { regex: /^#\/projects\/?$/,                path: 'projects',        paramNames: [] },
   { regex: /^#\/work\/?$/,                    path: 'tasks',           paramNames: [] },
@@ -109,6 +110,7 @@ type HashBuilder = (params: Record<string, any> | null | undefined) => string | 
 
 const REVERSE_MAP: Record<string, HashBuilder> = {
   'dashboard':            () => '#/dashboard',
+  'calendar':             () => '#/calendar',
   'tasks':                () => '#/tasks',
   'projects':             () => '#/projects',
   'work':                 () => '#/tasks',

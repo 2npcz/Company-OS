@@ -51,6 +51,7 @@ const TENANT_TABLES = [
   'task_subtasks',
   'task_comments',
   'task_work_updates',
+  'company_events',
 ] as const;
 
 /**

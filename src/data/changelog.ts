@@ -16,6 +16,18 @@ export interface ChangelogRelease {
 export const changelog: ChangelogRelease[] = [
   {
     date: '2026-10-31',
+    title: 'Phase 4 — Company Calendar & Unified Schedule (Holidays, Leaves, Deadlines & Events)',
+    entries: [
+      { type: 'feature', description: 'Engineered unified Company Calendar combining company events, meetings, Bangladesh national/religious public holidays, approved employee leaves, and project/task deadlines.' },
+      { type: 'feature', description: 'Created company_events table with multi-tenant RLS isolation, category filters, meeting links, and department bindings in migration 0041_company_calendar_events.sql.' },
+      { type: 'feature', description: 'Added interactive Month Grid and Agenda Timeline views with Friday weekly weekend highlighting for Bangladesh operations.' },
+      { type: 'feature', description: 'Built quick insight widgets: Out of Office Today (active leaves), Upcoming Bangladesh Public Holidays, and schedule pacing notes.' },
+      { type: 'feature', description: 'Created EventModal for scheduling company events and EventDetailModal with video meeting join shortcuts and authorized event management.' },
+      { type: 'improvement', description: 'Added deep link navigation (#/calendar) and integrated Company Calendar directly into the primary application sidebar.' },
+    ],
+  },
+  {
+    date: '2026-10-31',
     title: 'Phase 3 — Work Management (Projects, Tasks, Kanban, Subtasks, Work Updates & Workload Pacing)',
     entries: [
       { type: 'feature', description: 'Architected complete Work Management schema: projects, project_members, tasks, task_subtasks, task_comments, and task_work_updates with strict multi-tenant RLS isolation.' },

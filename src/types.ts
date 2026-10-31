@@ -858,4 +858,51 @@ export interface TaskWorkloadSummary {
   actualHoursTotal: number;
 }
 
+// ============================================================
+// Phase 4: Company Calendar & Unified Schedule
+// ============================================================
+
+export type CompanyEventType = 'EVENT' | 'MEETING' | 'MILESTONE' | 'HOLIDAY' | 'TRAINING' | 'DEADLINE';
+
+export interface CompanyEvent {
+  id: string;
+  organizationId: string;
+  title: string;
+  description?: string;
+  eventType: CompanyEventType;
+  startTime: string;
+  endTime?: string;
+  isAllDay: boolean;
+  location?: string;
+  meetingLink?: string;
+  departmentId?: string;
+  departmentName?: string;
+  creatorId?: string;
+  creatorName?: string;
+  color?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type UnifiedCalendarItemType = 'EVENT' | 'HOLIDAY' | 'LEAVE' | 'TASK' | 'PROJECT';
+
+export interface UnifiedCalendarItem {
+  id: string;
+  title: string;
+  type: UnifiedCalendarItemType;
+  date: string; // YYYY-MM-DD
+  endDate?: string;
+  time?: string;
+  color: string;
+  badgeText: string;
+  description?: string;
+  entityId?: string;
+  assigneeName?: string;
+  assigneeAvatar?: string;
+  location?: string;
+  meetingLink?: string;
+  isAllDay?: boolean;
+}
+
+
 

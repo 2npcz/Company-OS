@@ -14,9 +14,10 @@ import { roleService } from './role.service';
 import { jobArchitectureService } from './jobArchitecture.service';
 import { deviceService } from './device.service';
 import { workService } from './work.service';
+import { calendarService } from './calendar.service';
 import { apiClient } from './api.client';
 
-export { departmentService, roleService, jobArchitectureService, deviceService, workService };
+export { departmentService, roleService, jobArchitectureService, deviceService, workService, calendarService };
 
 export const hrService = {
   subscribe: apiClient.subscribe.bind(apiClient),
@@ -154,4 +155,7 @@ export const hrService = {
 
   // Work Management (Phase 3)
   workService,
+
+  // Company Calendar & Schedule (Phase 4)
+  calendarService,
 };
