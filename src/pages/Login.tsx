@@ -16,7 +16,7 @@ declare global {
 }
 
 import React, { useState, useEffect } from 'react';
-import { Mail, Lock, ArrowRight, AlertCircle, RefreshCw, Eye, EyeOff, Download, X, Share, MoreVertical, RotateCcw, Building2, Send, Home, CheckCircle2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, AlertCircle, RefreshCw, Eye, EyeOff, Download, X, Share, MoreVertical, RotateCcw, Building2, Send, Home, CheckCircle2, Globe } from 'lucide-react';
 import { hrService } from '../services/hrService';
 import { authService } from '../services/auth.service';
 import { isSupabaseConfigured } from '../services/supabase';
@@ -24,35 +24,36 @@ import { useToast } from '../context/ToastContext';
 
 interface LoginProps {
   onLoginSuccess: (user: any) => void;
-  onRegisterClick: () => void;
+  onRegisterClick?: () => void;
   onBackToLanding?: () => void;
   initError?: string;
+  companyName?: string;
 }
 
-const BrandLogo = () => (
-  <div className="flex flex-col items-center justify-center gap-6">
-    <div className="relative w-24 h-24 md:w-32 md:h-32">
-      <div className="absolute inset-0 bg-primary-light blur-[50px] rounded-full -z-10 opacity-50"></div>
-      <div className="relative w-full h-full bg-white rounded-[1.75rem] shadow-xl flex items-center justify-center p-4 border-2 border-primary/20">
-        <img
-          src="/img/logo.webp"
-          className="w-full h-full object-contain"
-          alt="OpenHRApp Logo"
-        />
+const BrandLogo: React.FC<{ companyName?: string }> = ({ companyName = 'EcoGlobal Trading BD' }) => (
+  <div className="flex flex-col items-center justify-center gap-5">
+    <div className="relative w-24 h-24 md:w-28 md:h-28">
+      <div className="absolute inset-0 bg-emerald-500/20 blur-[40px] rounded-full -z-10 opacity-70"></div>
+      <div className="relative w-full h-full bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-900 rounded-[2rem] shadow-2xl flex items-center justify-center p-5 text-white border border-slate-700/50">
+        <Globe size={46} className="text-emerald-400 stroke-[1.8]" />
       </div>
     </div>
-    <div className="text-center">
-      <h1 className="text-3xl md:text-4xl font-semibold tracking-tighter flex items-center justify-center">
-        <span className="text-primary">Open</span>
-        <span className="text-[#f59e0b]">HR</span>
-        <span className="text-[#10b981]">App</span>
+    <div className="text-center px-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 mb-2">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-widest">Internal Portal</span>
+      </div>
+      <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
+        {companyName}
       </h1>
-      <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">Personnel Gateway</p>
+      <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.25em] mt-1">
+        Company OS · Operations & Personnel
+      </p>
     </div>
   </div>
 );
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackToLanding, initError }) => {
+const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackToLanding, initError, companyName = 'EcoGlobal Trading BD' }) => {
   const { showToast } = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -365,7 +366,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackTo
           
           <div className="p-8 md:p-12 space-y-10">
             {/* Brand Header */}
-            <BrandLogo />
+            <BrandLogo companyName={companyName} />
 
             {/* Forgot Password Flow */}
             {showForgot ? (
@@ -522,13 +523,21 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackTo
                   Forgot Password?
                 </button>
 
-                <button
-                  type="button"
-                  onClick={onRegisterClick}
-                  className="w-full py-3 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-semibold text-[10px] uppercase tracking-widest hover:bg-white hover:border-slate-300 transition-all flex items-center justify-center gap-2"
-                >
-                  <Building2 size={14} /> Register New Organization
-                </button>
+                {onRegisterClick ? (
+                  <button
+                    type="button"
+                    onClick={onRegisterClick}
+                    className="w-full py-3 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl font-semibold text-[10px] uppercase tracking-widest hover:bg-white hover:border-slate-300 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Building2 size={14} /> Register New Organization
+                  </button>
+                ) : (
+                  <div className="py-2 text-center">
+                    <p className="text-[11px] text-slate-400 font-medium">
+                      Internal corporate system. Contact HR for access credentials.
+                    </p>
+                  </div>
+                )}
 
                 {/* Back to Home */}
                 {onBackToLanding && (
@@ -582,7 +591,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackTo
         </div>
 
         {/* System Version */}
-        <p className="text-center mt-6 text-[8px] font-semibold text-slate-300 uppercase tracking-[0.4em]">v3.0 Multi-Tenant</p>
+        <p className="text-center mt-6 text-[8px] font-semibold text-slate-400 uppercase tracking-[0.3em]">EcoGlobal Trading BD · Company OS</p>
       </div>
 
       {/* Database Connection Indicator */}

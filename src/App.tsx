@@ -110,7 +110,7 @@ const AppContent: React.FC = () => {
   const [navParams, setNavParams] = useState<any>(null);
 
   // Public Pages State
-  const [showLanding, setShowLanding] = useState(true);
+  const [showLanding, setShowLanding] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [verificationToken, setVerificationToken] = useState<string | null>(null);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
@@ -519,19 +519,16 @@ const AppContent: React.FC = () => {
     );
   }
 
-  // Priority 2: Public Landing/Login/Register
+  // Priority 2: Company Login / Auth Gate (Configured for EcoGlobal Trading BD)
   if (!user) {
     if (showRegister) {
-      return <RegisterOrganization onBack={() => { setShowRegister(false); setShowLanding(true); }} onSuccess={login} />;
-    }
-    if (!showLanding) {
-      return <Login onLoginSuccess={login} onRegisterClick={() => setShowRegister(true)} onBackToLanding={() => setShowLanding(true)} />;
+      return <RegisterOrganization onBack={() => setShowRegister(false)} onSuccess={login} />;
     }
     return (
-      <LandingPage
-        onLoginClick={() => setShowLanding(false)}
-        onRegisterClick={() => { setShowLanding(false); setShowRegister(true); }}
+      <Login
         onLoginSuccess={login}
+        onRegisterClick={window.location.search.includes('register=true') ? () => setShowRegister(true) : undefined}
+        companyName="EcoGlobal Trading BD"
       />
     );
   }

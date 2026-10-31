@@ -71,10 +71,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, currentPath, onNaviga
                  <div className="p-1.5 bg-white rounded-xl border border-primary/20 shadow-sm overflow-hidden md:hidden flex-shrink-0">
                     <img src="./img/logo.webp" className="w-10 h-10 object-contain" alt="Logo" />
                  </div>
-                 <h2 className="font-semibold text-xl tracking-tighter text-primary md:hidden truncate min-w-0">OpenHRApp</h2>
+                 <h2 className="font-bold text-lg tracking-tight text-slate-900 md:hidden truncate min-w-0">EcoGlobal Trading BD</h2>
                  <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full border bg-slate-50 text-slate-400 border-slate-100">
                    <Database size={12} />
-                   <span className="text-[9px] font-semibold uppercase tracking-widest">Cloud Node Alpha</span>
+                   <span className="text-[9px] font-semibold uppercase tracking-widest">EcoGlobal BD · Company OS</span>
                  </div>
               </div>
            </div>

@@ -202,9 +202,9 @@ export const TIMEZONE_OPTIONS = [
 ];
 
 export const DEFAULT_CONFIG: AppConfig = {
-  companyName: "OpenHRApp Solutions Ltd.",
-  timezone: "UTC",
-  currency: "USD",
+  companyName: "EcoGlobal Trading BD",
+  timezone: "Asia/Dhaka",
+  currency: "BDT",
   dateFormat: "DD/MM/YYYY",
   workingDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
   officeStartTime: "09:00",

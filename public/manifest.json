@@ -1,9 +1,9 @@
 
 {
-  "id": "openhrapp",
-  "name": "OpenHRApp",
-  "short_name": "OpenHRApp",
-  "description": "Smart Open-Source HR Management System",
+  "id": "ecoglobal-company-os",
+  "name": "EcoGlobal Trading BD — Company OS",
+  "short_name": "EcoGlobal BD",
+  "description": "EcoGlobal Trading BD internal operations, HR, attendance, and company management platform.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
