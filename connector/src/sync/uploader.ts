@@ -105,7 +105,7 @@ export class SupabaseUploader {
     try {
       const { data: rawEvents } = await this.client
         .from('attendance_raw_events')
-        .select('id, device_user_id, employee_id, event_timestamp, verification_method')
+        .select('id, device_user_id, employee_id, event_timestamp, verification_method, employee:profiles!employee_id(id, name)')
         .eq('organization_id', this.orgId)
         .eq('processed', false)
         .not('employee_id', 'is', null)
@@ -125,13 +125,14 @@ export class SupabaseUploader {
 
       for (const [key, evList] of groups.entries()) {
         const [employeeId, dateYMD] = key.split(':');
+        const employeeName = (evList[0] as any)?.employee?.name || null;
         const timestamps = evList.map((e) => new Date(e.event_timestamp).getTime()).sort();
         const earliestISO = new Date(timestamps[0]).toISOString();
         const latestISO = timestamps.length > 1 ? new Date(timestamps[timestamps.length - 1]).toISOString() : null;
 
         const { data: existingSession } = await this.client
           .from('attendance')
-          .select('id, check_in, check_out')
+          .select('id, check_in, check_out, employee_name')
           .eq('organization_id', this.orgId)
           .eq('employee_id', employeeId)
           .eq('date', dateYMD)
@@ -141,6 +142,9 @@ export class SupabaseUploader {
 
         if (existingSession) {
           const updates: any = {};
+          if (!existingSession.employee_name && employeeName) {
+            updates.employee_name = employeeName;
+          }
           if (!existingSession.check_in || new Date(earliestISO) < new Date(existingSession.check_in)) {
             updates.check_in = earliestISO;
           }
@@ -157,6 +161,7 @@ export class SupabaseUploader {
             .insert({
               organization_id: this.orgId,
               employee_id: employeeId,
+              employee_name: employeeName,
               date: dateYMD,
               check_in: earliestISO,
               check_out: latestISO,
