@@ -49,7 +49,7 @@ begin
     ('4',  'EMP-004', 'Imtiaz Ahmed',         'imtiaz.ahmed@ecoglobalbd.com',  'Operations Executive',  'Operations', 'EMPLOYEE'),
     ('5',  'EMP-005', 'Sijan Hasan',          'sijan.hasan@ecoglobalbd.com',   'Operations Executive',  'Operations', 'EMPLOYEE'),
     ('6',  'EMP-006', 'Sakawat Hossain',      'sakawat.hossain@ecoglobalbd.com','Operations Executive',  'Operations', 'EMPLOYEE'),
-    ('7',  'EMP-007', 'Mahima Zakir',         'mahima.zakir@ecoglobalbd.com',  'Marketing Executive',   'Marketing',  'EMPLOYEE'),
+    ('7',  'EMP-007', 'Mahima Zakir',         'mahima.zakir@ecoglobalbd.com',  'Sr. Executive (Business Development & Marketing)', 'Marketing', 'EMPLOYEE'),
     ('8',  'EMP-008', 'Samiha Jakir',         'samiha.jakir@ecoglobalbd.com',  'Marketing Executive',   'Marketing',  'EMPLOYEE'),
     ('9',  'EMP-009', 'Jahedul Islam Lipon',  'jahedul.islam@ecoglobalbd.com', 'Accounts Executive',    'Accounts',   'EMPLOYEE'),
     ('10', 'EMP-010', 'Talha Jalal',          'talha.jalal@ecoglobalbd.com',   'Developer & IT Lead',   'IT',         'ADMIN'),
