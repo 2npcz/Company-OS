@@ -16,11 +16,12 @@ declare global {
 }
 
 import React, { useState, useEffect } from 'react';
-import { Mail, Lock, ArrowRight, AlertCircle, RefreshCw, Eye, EyeOff, Download, X, Share, MoreVertical, RotateCcw, Building2, Send, Home, CheckCircle2, Globe } from 'lucide-react';
+import { Mail, Lock, ArrowRight, AlertCircle, RefreshCw, Eye, EyeOff, Download, X, Share, MoreVertical, RotateCcw, Building2, Send, Home, CheckCircle2, Globe, Sun, Moon } from 'lucide-react';
 import { hrService } from '../services/hrService';
 import { authService } from '../services/auth.service';
 import { isSupabaseConfigured } from '../services/supabase';
 import { useToast } from '../context/ToastContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface LoginProps {
   onLoginSuccess: (user: any) => void;
@@ -34,16 +35,16 @@ const BrandLogo: React.FC<{ companyName?: string }> = ({ companyName = 'EcoGloba
   <div className="flex flex-col items-center justify-center gap-5">
     <div className="relative w-24 h-24 md:w-28 md:h-28">
       <div className="absolute inset-0 bg-sky-500/20 blur-[40px] rounded-full -z-10 opacity-70"></div>
-      <div className="relative w-full h-full bg-white rounded-[2rem] shadow-xl flex items-center justify-center p-3 border border-slate-100">
+      <div className="relative w-full h-full bg-white dark:bg-slate-800 rounded-[2rem] shadow-xl flex items-center justify-center p-3 border border-slate-100 dark:border-slate-700">
         <img src="/img/logo.png" alt={companyName} className="w-full h-full object-contain" />
       </div>
     </div>
     <div className="text-center px-4">
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 mb-2">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-800/60 mb-2">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-widest">Internal Portal</span>
+        <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-widest">Internal Portal</span>
       </div>
-      <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
+      <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
         {companyName}
       </h1>
       <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.25em] mt-1">
@@ -55,6 +56,7 @@ const BrandLogo: React.FC<{ companyName?: string }> = ({ companyName = 'EcoGloba
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackToLanding, initError, companyName = 'EcoGlobal Trading BD' }) => {
   const { showToast } = useToast();
+  const { darkMode, setDarkModePreference } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -356,13 +358,25 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, onRegisterClick, onBackTo
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-[#f8fafc] items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col bg-[#f8fafc] dark:bg-[#070b14] items-center justify-center p-4 relative overflow-hidden">
+      {/* Top Bar with Theme Toggle */}
+      <div className="absolute top-4 right-4 z-20">
+        <button
+          onClick={() => setDarkModePreference(darkMode ? 'light' : 'dark')}
+          className="p-3 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 text-slate-500 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-sm"
+          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label="Toggle display theme"
+        >
+          {darkMode ? <Sun size={18} className="text-amber-400 animate-in spin-in-90 duration-300" /> : <Moon size={18} className="text-slate-600" />}
+        </button>
+      </div>
+
       {/* Dynamic Background */}
-      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-light blur-[100px] rounded-full -z-10"></div>
-      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-500/5 blur-[100px] rounded-full -z-10"></div>
+      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-light/40 dark:bg-cyan-500/10 blur-[100px] rounded-full -z-10"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-500/5 dark:bg-indigo-500/10 blur-[100px] rounded-full -z-10"></div>
       
       <div className="w-full max-w-[400px] animate-in fade-in zoom-in duration-500">
-        <div className="bg-white md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:border border-slate-100 rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-[#0f172a] md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:md:shadow-[0_20px_50px_rgba(0,0,0,0.6)] md:border border-slate-100 dark:border-slate-800/80 rounded-2xl overflow-hidden">
           
           <div className="p-8 md:p-12 space-y-10">
             {/* Brand Header */}

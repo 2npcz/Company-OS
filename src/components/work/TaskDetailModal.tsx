@@ -234,14 +234,14 @@ export const TaskDetailModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden border border-slate-100 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white dark:bg-[#0f172a] rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50/50">
+        <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between gap-4 bg-slate-50/50 dark:bg-slate-900/60">
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               {task.projectName && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20">
                   <Folder size={12} />
                   {task.projectName}
                 </span>
@@ -261,7 +261,7 @@ export const TaskDetailModal: React.FC<Props> = ({
                 {STATUS_CONFIG[task.status]?.label}
               </span>
             </div>
-            <h2 className="text-xl font-bold text-slate-900 leading-snug">{task.title}</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-snug">{task.title}</h2>
           </div>
 
           <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -270,20 +270,20 @@ export const TaskDetailModal: React.FC<Props> = ({
                 onClose();
                 onEditTask(task);
               }}
-              className="px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200/80 bg-slate-100 rounded-lg transition-colors"
+              className="px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-800 bg-slate-100 dark:bg-slate-800/80 rounded-lg transition-colors"
             >
               Edit
             </button>
             <button
               onClick={handleDeleteTask}
               title="Delete Task"
-              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              className="p-1.5 text-slate-400 hover:text-red-600 dark:hover:text-rose-400 hover:bg-red-50 dark:hover:bg-rose-950/30 rounded-lg transition-colors"
             >
               <Trash2 size={16} />
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
             >
               <X size={20} />
             </button>
@@ -382,7 +382,7 @@ export const TaskDetailModal: React.FC<Props> = ({
           )}
 
           {/* Key Metrics & Meta Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-950/60 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
             <div>
               <span className="text-[11px] font-semibold text-slate-400 uppercase block">
                 Assignee
@@ -395,11 +395,11 @@ export const TaskDetailModal: React.FC<Props> = ({
                     className="w-6 h-6 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
+                  <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 flex items-center justify-center text-xs font-bold">
                     {task.assigneeName ? task.assigneeName[0].toUpperCase() : <User size={12} />}
                   </div>
                 )}
-                <span className="text-xs font-semibold text-slate-800 truncate">
+                <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
                   {task.assigneeName || 'Unassigned'}
                 </span>
               </div>
@@ -409,7 +409,7 @@ export const TaskDetailModal: React.FC<Props> = ({
               <span className="text-[11px] font-semibold text-slate-400 uppercase block">
                 Due Date
               </span>
-              <div className="flex items-center gap-1.5 mt-1 text-xs font-semibold text-slate-800">
+              <div className="flex items-center gap-1.5 mt-1 text-xs font-semibold text-slate-800 dark:text-slate-200">
                 <Calendar size={14} className={isOverdue ? 'text-red-600' : 'text-slate-400'} />
                 <span>
                   {task.dueDate
@@ -478,14 +478,14 @@ export const TaskDetailModal: React.FC<Props> = ({
           )}
 
           {/* Tabs: Subtasks / Work Updates / Comments */}
-          <div className="border-t border-slate-100 pt-4 space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+          <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
               <button
                 onClick={() => setActiveTab('subtasks')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
                   activeTab === 'subtasks'
-                    ? 'bg-indigo-50 text-indigo-700'
-                    : 'text-slate-500 hover:text-slate-800'
+                    ? 'bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 border border-indigo-200/50 dark:border-indigo-500/30'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 <CheckSquare size={14} />
@@ -496,8 +496,8 @@ export const TaskDetailModal: React.FC<Props> = ({
                 onClick={() => setActiveTab('updates')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
                   activeTab === 'updates'
-                    ? 'bg-indigo-50 text-indigo-700'
-                    : 'text-slate-500 hover:text-slate-800'
+                    ? 'bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 border border-indigo-200/50 dark:border-indigo-500/30'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 <Activity size={14} />
@@ -508,8 +508,8 @@ export const TaskDetailModal: React.FC<Props> = ({
                 onClick={() => setActiveTab('comments')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
                   activeTab === 'comments'
-                    ? 'bg-indigo-50 text-indigo-700'
-                    : 'text-slate-500 hover:text-slate-800'
+                    ? 'bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 border border-indigo-200/50 dark:border-indigo-500/30'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
                 <MessageSquare size={14} />

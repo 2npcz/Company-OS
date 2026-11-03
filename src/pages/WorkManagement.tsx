@@ -200,13 +200,13 @@ export const WorkManagement: React.FC<Props> = ({
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 bg-slate-100/70 p-1.5 rounded-2xl border border-slate-200/60 max-w-xl">
+      <div className="flex items-center gap-2 bg-slate-100/70 dark:bg-slate-900/60 p-1.5 rounded-2xl border border-slate-200/60 dark:border-slate-800 max-w-xl">
         <button
           onClick={() => setActiveTab('KANBAN')}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold rounded-xl transition-all ${
             activeTab === 'KANBAN'
-              ? 'bg-white text-indigo-700 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-indigo-700 dark:bg-slate-800 dark:text-cyan-400 dark:border dark:border-cyan-500/20 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
           }`}
         >
           <Kanban size={15} />
@@ -217,8 +217,8 @@ export const WorkManagement: React.FC<Props> = ({
           onClick={() => setActiveTab('LIST')}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold rounded-xl transition-all ${
             activeTab === 'LIST'
-              ? 'bg-white text-indigo-700 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-indigo-700 dark:bg-slate-800 dark:text-cyan-400 dark:border dark:border-cyan-500/20 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
           }`}
         >
           <ListTodo size={15} />
@@ -229,8 +229,8 @@ export const WorkManagement: React.FC<Props> = ({
           onClick={() => setActiveTab('PROJECTS')}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold rounded-xl transition-all ${
             activeTab === 'PROJECTS'
-              ? 'bg-white text-indigo-700 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-indigo-700 dark:bg-slate-800 dark:text-cyan-400 dark:border dark:border-cyan-500/20 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
           }`}
         >
           <FolderKanban size={15} />
@@ -241,8 +241,8 @@ export const WorkManagement: React.FC<Props> = ({
           onClick={() => setActiveTab('WORKLOAD')}
           className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 text-xs font-bold rounded-xl transition-all ${
             activeTab === 'WORKLOAD'
-              ? 'bg-white text-indigo-700 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-white text-indigo-700 dark:bg-slate-800 dark:text-cyan-400 dark:border dark:border-cyan-500/20 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
           }`}
         >
           <Users2 size={15} />

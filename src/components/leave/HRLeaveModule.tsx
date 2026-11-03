@@ -90,13 +90,13 @@ export const HRLeaveModule: React.FC<Props> = ({ requests, onRefresh, readOnly =
           className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-[10px] font-semibold uppercase tracking-widest transition-all ${
             activeTab === 'pending'
               ? 'bg-emerald-600 text-white shadow-lg'
-              : 'bg-white border border-slate-100 text-slate-400 hover:text-slate-600'
+              : 'bg-white dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
           }`}
         >
           <Clock size={14} /> Pending Approval
           {pendingCount > 0 && (
             <span className={`ml-1 px-2 py-0.5 rounded-full text-[9px] font-semibold ${
-              activeTab === 'pending' ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700'
+              activeTab === 'pending' ? 'bg-white/20 text-white' : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400'
             }`}>{pendingCount}</span>
           )}
         </button>
@@ -104,13 +104,13 @@ export const HRLeaveModule: React.FC<Props> = ({ requests, onRefresh, readOnly =
           onClick={() => setActiveTab('all')}
           className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-[10px] font-semibold uppercase tracking-widest transition-all ${
             activeTab === 'all'
-              ? 'bg-slate-800 text-white shadow-lg'
-              : 'bg-white border border-slate-100 text-slate-400 hover:text-slate-600'
+              ? 'bg-slate-800 dark:bg-slate-700 text-white shadow-lg border border-transparent dark:border-slate-600'
+              : 'bg-white dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
           }`}
         >
           <List size={14} /> All Leaves
           <span className={`ml-1 px-2 py-0.5 rounded-full text-[9px] font-semibold ${
-            activeTab === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+            activeTab === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
           }`}>{requests.length}</span>
         </button>
       </div>

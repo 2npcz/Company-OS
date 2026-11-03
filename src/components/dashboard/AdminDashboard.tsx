@@ -41,34 +41,34 @@ export const AdminDashboard: React.FC<Props> = ({ data, isLoading, onNavigate })
         {/* Row 1 — Management */}
         <div>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 px-1">Management</p>
-          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 p-1 bg-slate-100 rounded-xl">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 p-1 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-transparent dark:border-slate-800">
             <button
               onClick={() => onNavigate('attendance-audit')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <List size={16} /> <span className="truncate">Audit</span>
             </button>
             <button
               onClick={() => onNavigate('leave')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <CalendarDays size={16} /> <span className="truncate">Leave</span>
             </button>
             <button
               onClick={() => onNavigate('employees')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <Users size={16} /> <span className="truncate">Directory</span>
             </button>
             <button
               onClick={() => onNavigate('organization')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <Network size={16} /> <span className="truncate">Org</span>
             </button>
             <button
               onClick={() => onNavigate('reports')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <BarChart3 size={16} /> <span className="truncate">Reports</span>
             </button>
@@ -77,22 +77,22 @@ export const AdminDashboard: React.FC<Props> = ({ data, isLoading, onNavigate })
         {/* Row 2 — Personal */}
         <div>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 px-1">Personal</p>
-          <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-xl">
+          <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-transparent dark:border-slate-800">
             <button
               onClick={() => onNavigate('attendance-logs')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <History size={16} /> <span className="truncate">Attendance</span>
             </button>
             <button
               onClick={() => onNavigate('profile')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <UserCircle size={16} /> <span className="truncate">Profile</span>
             </button>
             <button
               onClick={() => onNavigate('settings')}
-              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 hover:bg-white"
+              className="py-3 px-2 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/90"
             >
               <Settings size={16} /> <span className="truncate">Settings</span>
             </button>

@@ -31,12 +31,12 @@ interface Props {
 }
 
 const COLUMNS: { status: TaskStatus; title: string; color: string; badgeBg: string }[] = [
-  { status: 'BACKLOG', title: 'Backlog', color: 'border-slate-300', badgeBg: 'bg-slate-100 text-slate-700' },
-  { status: 'TODO', title: 'To Do', color: 'border-blue-300', badgeBg: 'bg-blue-100 text-blue-700' },
-  { status: 'IN_PROGRESS', title: 'In Progress', color: 'border-amber-400', badgeBg: 'bg-amber-100 text-amber-800' },
-  { status: 'REVIEW', title: 'Review', color: 'border-purple-300', badgeBg: 'bg-purple-100 text-purple-700' },
-  { status: 'BLOCKED', title: 'Blocked', color: 'border-red-400', badgeBg: 'bg-red-100 text-red-700' },
-  { status: 'COMPLETED', title: 'Completed', color: 'border-emerald-400', badgeBg: 'bg-emerald-100 text-emerald-800' },
+  { status: 'BACKLOG', title: 'Backlog', color: 'border-slate-300 dark:border-slate-600', badgeBg: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' },
+  { status: 'TODO', title: 'To Do', color: 'border-blue-400 dark:border-blue-500', badgeBg: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' },
+  { status: 'IN_PROGRESS', title: 'In Progress', color: 'border-amber-400 dark:border-amber-500', badgeBg: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' },
+  { status: 'REVIEW', title: 'Review', color: 'border-purple-400 dark:border-purple-500', badgeBg: 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300' },
+  { status: 'BLOCKED', title: 'Blocked', color: 'border-red-400 dark:border-red-500', badgeBg: 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' },
+  { status: 'COMPLETED', title: 'Completed', color: 'border-emerald-400 dark:border-emerald-500', badgeBg: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300' },
 ];
 
 const NEXT_STATUS: Record<TaskStatus, TaskStatus | null> = {
@@ -50,10 +50,10 @@ const NEXT_STATUS: Record<TaskStatus, TaskStatus | null> = {
 };
 
 const PRIORITY_BADGES: Record<TaskPriority, { label: string; color: string }> = {
-  LOW: { label: 'Low', color: 'bg-slate-100 text-slate-600' },
-  MEDIUM: { label: 'Medium', color: 'bg-blue-100 text-blue-700' },
-  HIGH: { label: 'High', color: 'bg-amber-100 text-amber-800' },
-  URGENT: { label: 'Urgent', color: 'bg-red-100 text-red-800 font-bold' },
+  LOW: { label: 'Low', color: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300' },
+  MEDIUM: { label: 'Medium', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' },
+  HIGH: { label: 'High', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' },
+  URGENT: { label: 'Urgent', color: 'bg-red-100 text-red-800 font-bold dark:bg-red-900/40 dark:text-red-300' },
 };
 
 export const WorkKanbanBoard: React.FC<Props> = ({
@@ -115,34 +115,34 @@ export const WorkKanbanBoard: React.FC<Props> = ({
       <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
         {/* KPI Strip */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+          <div className="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
             <div>
-              <span className="text-[11px] font-bold text-slate-500 uppercase">Active WIP Tasks</span>
-              <p className="text-xl font-bold text-slate-900">{wipCount}</p>
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Active WIP Tasks</span>
+              <p className="text-xl font-bold text-slate-900 dark:text-white">{wipCount}</p>
             </div>
-            <span className="text-xs text-slate-500 bg-white px-2 py-1 rounded-lg border">Flow Pacing</span>
+            <span className="text-xs text-slate-500 dark:text-slate-300 bg-white dark:bg-slate-800 px-2 py-1 rounded-lg border border-slate-100 dark:border-slate-700 shadow-xs">Flow Pacing</span>
           </div>
 
-          <div className="p-3 bg-amber-50/60 rounded-xl border border-amber-200/60 flex items-center justify-between">
+          <div className="p-3 bg-amber-50/60 dark:bg-amber-950/20 rounded-xl border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-between">
             <div>
-              <span className="text-[11px] font-bold text-amber-700 uppercase">Blocked Impediments</span>
-              <p className="text-xl font-bold text-amber-900">{blockedCount}</p>
+              <span className="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase">Blocked Impediments</span>
+              <p className="text-xl font-bold text-amber-900 dark:text-amber-300">{blockedCount}</p>
             </div>
-            <AlertCircle size={20} className="text-amber-600" />
+            <AlertCircle size={20} className="text-amber-600 dark:text-amber-400" />
           </div>
 
-          <div className="p-3 bg-red-50/60 rounded-xl border border-red-200/60 flex items-center justify-between">
+          <div className="p-3 bg-red-50/60 dark:bg-rose-950/20 rounded-xl border border-red-200/60 dark:border-rose-800/40 flex items-center justify-between">
             <div>
-              <span className="text-[11px] font-bold text-red-700 uppercase">Overdue Tasks</span>
-              <p className="text-xl font-bold text-red-900">{overdueCount}</p>
+              <span className="text-[11px] font-bold text-red-700 dark:text-rose-400 uppercase">Overdue Tasks</span>
+              <p className="text-xl font-bold text-red-900 dark:text-rose-300">{overdueCount}</p>
             </div>
-            <AlertTriangle size={20} className="text-red-600" />
+            <AlertTriangle size={20} className="text-red-600 dark:text-rose-400" />
           </div>
 
-          <div className="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200/60 flex items-center justify-between">
+          <div className="p-3 bg-indigo-50/60 dark:bg-indigo-950/20 rounded-xl border border-indigo-200/60 dark:border-indigo-800/40 flex items-center justify-between">
             <div>
-              <span className="text-[11px] font-bold text-indigo-700 uppercase">Total Tracked</span>
-              <p className="text-xl font-bold text-indigo-900">{filteredTasks.length}</p>
+              <span className="text-[11px] font-bold text-indigo-700 dark:text-indigo-400 uppercase">Total Tracked</span>
+              <p className="text-xl font-bold text-indigo-900 dark:text-indigo-300">{filteredTasks.length}</p>
             </div>
             <button
               onClick={() => onAddTask()}
@@ -230,7 +230,7 @@ export const WorkKanbanBoard: React.FC<Props> = ({
           return (
             <div
               key={col.status}
-              className={`bg-slate-50/80 rounded-2xl p-3 border-t-4 ${col.color} border-slate-200 flex flex-col min-h-[500px] shadow-sm`}
+              className={`bg-slate-50/80 dark:bg-slate-900/50 rounded-2xl p-3 border-t-4 ${col.color} border-slate-200 dark:border-slate-800/80 flex flex-col min-h-[500px] shadow-sm backdrop-blur-sm`}
             >
               {/* Column Header */}
               <div className="flex items-center justify-between pb-3 px-1">
@@ -269,7 +269,7 @@ export const WorkKanbanBoard: React.FC<Props> = ({
                     <div
                       key={task.id}
                       onClick={() => onTaskClick(task)}
-                      className="bg-white p-3.5 rounded-xl border border-slate-200/80 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer space-y-2.5 group relative"
+                      className="bg-white dark:bg-slate-800/90 p-3.5 rounded-xl border border-slate-200/80 dark:border-slate-700/60 hover:border-indigo-300 dark:hover:border-indigo-400 hover:shadow-md dark:hover:shadow-black/50 transition-all cursor-pointer space-y-2.5 group relative"
                     >
                       {/* Tags & Priority */}
                       <div className="flex items-center justify-between gap-1 flex-wrap">

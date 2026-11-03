@@ -61,13 +61,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
   const filteredItems = menuItems.filter(item => item.roles.includes(role));
 
   return (
-    <aside className="w-80 bg-white h-screen flex flex-col border-r border-slate-100 shadow-sm relative z-50">
+    <aside className="w-80 bg-white dark:bg-[#0b1220] h-screen flex flex-col border-r border-slate-100 dark:border-slate-800/80 shadow-sm relative z-50">
       {/* Company Brand Header */}
-      <div className="px-6 py-4 flex items-center gap-3 border-b border-slate-100/80 bg-slate-50/50">
-        <img src="/img/logo.png" alt="EcoGlobal Logo" className="w-9 h-9 object-contain rounded-lg" />
+      <div className="px-6 py-4 flex items-center gap-3 border-b border-slate-100/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
+        <div className="p-1.5 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700/60 shadow-xs flex-shrink-0">
+          <img src="/img/logo.png" alt="EcoGlobal Logo" className="w-8 h-8 object-contain" />
+        </div>
         <div className="min-w-0 flex-1">
-          <h1 className="text-xs font-bold text-slate-900 truncate tracking-tight">EcoGlobal Trading BD</h1>
-          <p className="text-[10px] font-semibold text-indigo-600 uppercase tracking-wider">Company OS</p>
+          <h1 className="text-xs font-bold text-slate-900 dark:text-white truncate tracking-tight">EcoGlobal Trading BD</h1>
+          <p className="text-[10px] font-bold text-primary dark:text-cyan-400 uppercase tracking-widest">Company OS</p>
         </div>
       </div>
 
@@ -76,14 +78,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
         <div className="relative mb-4">
           <img
             src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=random`}
-            className="w-24 h-24 rounded-full border-4 border-white shadow-xl bg-slate-50 object-cover"
+            className="w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-xl bg-slate-50 dark:bg-slate-800 object-cover"
             alt="Profile"
           />
-          <div className="absolute bottom-1 right-1 w-5 h-5 bg-primary border-4 border-white rounded-full"></div>
+          <div className="absolute bottom-1 right-1 w-5 h-5 bg-primary dark:bg-cyan-400 border-4 border-white dark:border-slate-900 rounded-full shadow-xs"></div>
         </div>
-        <h2 className="text-xl font-semibold text-slate-900 leading-tight">{user?.name || 'User Name'}</h2>
+        <h2 className="text-xl font-semibold text-slate-900 dark:text-white leading-tight">{user?.name || 'User Name'}</h2>
         <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-tight">{user?.designation || 'Specialist'}</p>
-        <div className="w-full h-px bg-slate-50 mt-8"></div>
+        <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 mt-8"></div>
       </div>
 
       {/* Navigation + Sign Out (all scrollable) */}
@@ -94,22 +96,22 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
               onClick={() => onNavigate(item.id)}
               className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl transition-all duration-300 relative group ${
                 currentPath === item.id
-                  ? 'bg-primary-light/50 text-primary'
-                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                  ? 'bg-primary-light/50 text-primary dark:bg-cyan-500/10 dark:text-cyan-400 dark:border dark:border-cyan-500/20 shadow-xs'
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
               }`}
             >
               <div className="flex items-center gap-4">
                 {currentPath === item.id && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-primary rounded-r-full"></div>
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-primary dark:bg-cyan-400 rounded-r-full shadow-sm dark:shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
                 )}
-                <item.icon size={22} className={currentPath === item.id ? 'text-primary' : 'text-slate-400'} />
+                <item.icon size={22} className={currentPath === item.id ? 'text-primary dark:text-cyan-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white'} />
                 <span className="font-bold text-sm tracking-tight">{item.label}</span>
               </div>
               <div className="flex items-center gap-1">
                 {!isSuperAdmin && (
                   <HelpButton helpPointId={`sidebar.${item.id}`} size={14} variant="sidebar" />
                 )}
-                <ChevronRight size={16} className={`transition-all duration-300 ${currentPath === item.id ? 'text-primary opacity-100 translate-x-0' : 'text-slate-200 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`} />
+                <ChevronRight size={16} className={`transition-all duration-300 ${currentPath === item.id ? 'text-primary dark:text-cyan-400 opacity-100 translate-x-0' : 'text-slate-200 dark:text-slate-600 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`} />
               </div>
             </button>
           </div>
@@ -119,19 +121,19 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
         <div className="pt-4 pb-2 space-y-4">
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-3xl group hover:bg-rose-50 transition-all"
+            className="w-full flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-3xl group hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all"
           >
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-white rounded-2xl shadow-sm text-slate-600 group-hover:text-rose-600 transition-colors">
+              <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm text-slate-600 dark:text-slate-300 group-hover:text-rose-600 transition-colors">
                 <LogOut size={20} />
               </div>
-              <span className="font-semibold text-sm text-slate-900 uppercase tracking-tight">Sign Out</span>
+              <span className="font-semibold text-sm text-slate-900 dark:text-slate-200 uppercase tracking-tight">Sign Out</span>
             </div>
-            <ChevronRight size={18} className="text-slate-300 group-hover:text-rose-300 transition-colors" />
+            <ChevronRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-rose-300 transition-colors" />
           </button>
 
           <div className="text-center">
-            <p className="text-[10px] font-semibold text-slate-300 uppercase tracking-[0.25em]">EcoGlobal Trading BD · OS</p>
+            <p className="text-[10px] font-semibold text-slate-300 dark:text-slate-600 uppercase tracking-[0.25em]">EcoGlobal Trading BD · OS</p>
           </div>
         </div>
       </nav>

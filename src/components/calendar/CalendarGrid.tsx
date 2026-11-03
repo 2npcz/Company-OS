@@ -123,11 +123,11 @@ export const CalendarGrid: React.FC<Props> = ({
               onClick={() => onDayClick(dateStr)}
               className={`min-h-[110px] md:min-h-[125px] p-2 flex flex-col justify-between transition-colors cursor-pointer group relative ${
                 !cell.isCurrentMonth
-                  ? 'bg-slate-50/40 text-slate-300'
+                  ? 'bg-slate-50/40 dark:bg-slate-950/50 text-slate-300 dark:text-slate-600'
                   : isFriday
-                  ? 'bg-amber-50/20'
-                  : 'bg-white'
-              } hover:bg-indigo-50/30`}
+                  ? 'bg-amber-50/20 dark:bg-amber-950/20'
+                  : 'bg-white dark:bg-slate-900'
+              } hover:bg-indigo-50/30 dark:hover:bg-slate-800/60`}
             >
               {/* Day header */}
               <div className="flex items-center justify-between">
@@ -136,10 +136,10 @@ export const CalendarGrid: React.FC<Props> = ({
                     isToday
                       ? 'bg-indigo-600 text-white shadow-sm'
                       : !cell.isCurrentMonth
-                      ? 'text-slate-300'
+                      ? 'text-slate-300 dark:text-slate-600'
                       : isFriday
-                      ? 'text-amber-800'
-                      : 'text-slate-700'
+                      ? 'text-amber-800 dark:text-amber-400'
+                      : 'text-slate-700 dark:text-slate-200'
                   }`}
                 >
                   {cell.day}

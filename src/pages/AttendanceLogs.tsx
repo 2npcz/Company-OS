@@ -339,14 +339,14 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
       ) : (
         <>
           {/* Filter Bar */}
-      <div className="bg-white p-6 rounded-xl border border-slate-50 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-slate-900/80 p-6 rounded-xl border border-slate-50 dark:border-slate-800/80 shadow-sm space-y-4">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="relative flex-[2]">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={18} />
             <input 
               type="text" 
               placeholder="Search by name, date or status..."
-              className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-[1.5rem] text-sm font-bold outline-none focus:ring-4 focus:ring-primary-light"
+              className="w-full pl-14 pr-6 py-4 bg-slate-50 dark:bg-slate-950/70 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] text-sm font-bold outline-none focus:ring-4 focus:ring-primary-light dark:text-white"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -355,9 +355,9 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
           {isAuditMode && (
             <>
               <div className="relative flex-1">
-                <Users className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                <Users className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={18} />
                 <select 
-                  className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-[1.5rem] text-sm font-bold outline-none appearance-none"
+                  className="w-full pl-14 pr-6 py-4 bg-slate-50 dark:bg-slate-950/70 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] text-sm font-bold outline-none appearance-none dark:text-white"
                   value={employeeFilter}
                   onChange={(e) => setEmployeeFilter(e.target.value)}
                 >
@@ -369,9 +369,9 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
               </div>
               {isAdmin && (
                 <div className="relative flex-1">
-                  <Building className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Building className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={18} />
                   <select 
-                    className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-[1.5rem] text-sm font-bold outline-none appearance-none"
+                    className="w-full pl-14 pr-6 py-4 bg-slate-50 dark:bg-slate-950/70 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] text-sm font-bold outline-none appearance-none dark:text-white"
                     value={deptFilter}
                     onChange={(e) => setDeptFilter(e.target.value)}
                   >
@@ -387,7 +387,7 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
 
           <button 
             onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
-            className="px-6 py-4 bg-slate-50 border border-slate-100 rounded-[1.5rem] flex items-center justify-center gap-3 text-slate-500 hover:text-primary hover:bg-white transition-all whitespace-nowrap"
+            className="px-6 py-4 bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 rounded-[1.5rem] flex items-center justify-center gap-3 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-cyan-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap"
           >
             {sortOrder === 'desc' ? <SortDesc size={20} /> : <SortAsc size={20} />}
             <span className="text-[10px] font-semibold uppercase tracking-widest">{sortOrder === 'desc' ? 'Latest' : 'Oldest'}</span>
@@ -467,8 +467,8 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
 
       {/* Log Detail & Admin Edit Modal */}
       {selectedLog && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-xl overflow-hidden animate-in zoom-in duration-300">
+        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#0f172a] rounded-2xl w-full max-w-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-800 animate-in zoom-in duration-300">
             <div className="bg-primary p-8 flex justify-between items-center text-white">
               <div className="space-y-1">
                 <h3 className="text-xl font-semibold uppercase tracking-tight">
@@ -652,9 +652,9 @@ const AttendanceLogs: React.FC<AttendanceLogsProps> = ({ user, viewMode = 'MY', 
 
       {/* Manual Absent Modal */}
       {showAbsentModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl w-full max-w-md shadow-xl overflow-hidden animate-in zoom-in">
-             <div className="p-6 bg-slate-900 text-white flex justify-between items-center">
+        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#0f172a] rounded-xl w-full max-w-md shadow-xl overflow-hidden border border-slate-100 dark:border-slate-800 animate-in zoom-in">
+             <div className="p-6 bg-slate-900 dark:bg-slate-950 text-white flex justify-between items-center border-b border-transparent dark:border-slate-800">
                <h3 className="text-sm font-semibold uppercase tracking-widest">Manual Absent Entry</h3>
                <button onClick={() => setShowAbsentModal(false)}><X size={20}/></button>
              </div>

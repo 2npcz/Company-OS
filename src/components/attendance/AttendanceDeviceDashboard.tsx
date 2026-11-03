@@ -403,15 +403,15 @@ export const AttendanceDeviceDashboard: React.FC<AttendanceDeviceDashboardProps>
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as SubTab)}
-                className={`px-4 py-2.5 rounded-xl font-semibold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all ${
-                  isCur ? 'bg-white text-slate-900 shadow-md' : 'bg-white/10 text-white/80 hover:bg-white/20'
+                className={`px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all ${
+                  isCur ? 'bg-white text-slate-950 shadow-lg ring-1 ring-white/40' : 'bg-white/10 text-white/80 hover:bg-white/20'
                 }`}
               >
-                <Icon size={14} />
+                <Icon size={14} className={isCur ? 'text-indigo-600' : ''} />
                 {tab.label}
                 <span
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                    isCur ? 'bg-indigo-100 text-indigo-900' : 'bg-white/10 text-white'
+                    isCur ? 'bg-indigo-600 text-white' : 'bg-white/10 text-white'
                   }`}
                 >
                   {tab.count}

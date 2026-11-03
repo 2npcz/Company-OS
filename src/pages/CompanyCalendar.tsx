@@ -189,20 +189,20 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
         {/* Controls: Prev/Next Month, View switcher, Add Event */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Navigation Controls */}
-          <div className="flex items-center bg-slate-50 p-1 rounded-xl border border-slate-200">
+          <div className="flex items-center bg-slate-50 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
             <button
               onClick={prevMonth}
-              className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors"
+              className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors"
               title="Previous Month"
             >
               <ChevronLeft size={18} />
             </button>
-            <span className="px-3 text-xs font-bold text-slate-800 min-w-[120px] text-center">
+            <span className="px-3 text-xs font-bold text-slate-800 dark:text-slate-100 min-w-[120px] text-center">
               {monthTitle}
             </span>
             <button
               onClick={nextMonth}
-              className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition-colors"
+              className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors"
               title="Next Month"
             >
               <ChevronRight size={18} />
@@ -211,17 +211,17 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
           <button
             onClick={jumpToToday}
-            className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-colors"
+            className="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors"
           >
             Today
           </button>
 
           {/* Grid vs Agenda switcher */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+          <div className="flex items-center bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200/40 dark:border-slate-800">
             <button
               onClick={() => setViewMode('GRID')}
               className={`p-1.5 rounded-lg transition-colors ${
-                viewMode === 'GRID' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                viewMode === 'GRID' ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-cyan-400 shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
               }`}
               title="Month Grid View"
             >
@@ -230,7 +230,7 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
             <button
               onClick={() => setViewMode('AGENDA')}
               className={`p-1.5 rounded-lg transition-colors ${
-                viewMode === 'AGENDA' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                viewMode === 'AGENDA' ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-cyan-400 shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
               }`}
               title="Agenda List View"
             >
@@ -264,8 +264,8 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           onClick={() => setSelectedCategory('ALL')}
           className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
             selectedCategory === 'ALL'
-              ? 'bg-slate-900 text-white'
-              : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+              ? 'bg-slate-900 text-white dark:bg-cyan-500 dark:text-slate-950 shadow-sm'
+              : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700/60'
           }`}
         >
           <span>All Items</span>
@@ -276,8 +276,8 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           onClick={() => setSelectedCategory('EVENT')}
           className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
             selectedCategory === 'EVENT'
-              ? 'bg-indigo-600 text-white'
-              : 'bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-200'
+              ? 'bg-indigo-600 text-white shadow-sm'
+              : 'bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-200 dark:bg-slate-800/80 dark:text-indigo-400 dark:border-indigo-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-indigo-500" />
@@ -288,8 +288,8 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           onClick={() => setSelectedCategory('HOLIDAY')}
           className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
             selectedCategory === 'HOLIDAY'
-              ? 'bg-amber-600 text-white'
-              : 'bg-white text-amber-800 hover:bg-amber-50 border border-amber-200'
+              ? 'bg-amber-600 text-white shadow-sm'
+              : 'bg-white text-amber-800 hover:bg-amber-50 border border-amber-200 dark:bg-slate-800/80 dark:text-amber-400 dark:border-amber-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-amber-500" />
@@ -300,8 +300,8 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           onClick={() => setSelectedCategory('LEAVE')}
           className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
             selectedCategory === 'LEAVE'
-              ? 'bg-emerald-600 text-white'
-              : 'bg-white text-emerald-800 hover:bg-emerald-50 border border-emerald-200'
+              ? 'bg-emerald-600 text-white shadow-sm'
+              : 'bg-white text-emerald-800 hover:bg-emerald-50 border border-emerald-200 dark:bg-slate-800/80 dark:text-emerald-400 dark:border-emerald-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -312,8 +312,8 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           onClick={() => setSelectedCategory('WORK')}
           className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
             selectedCategory === 'WORK'
-              ? 'bg-purple-600 text-white'
-              : 'bg-white text-purple-800 hover:bg-purple-50 border border-purple-200'
+              ? 'bg-purple-600 text-white shadow-sm'
+              : 'bg-white text-purple-800 hover:bg-purple-50 border border-purple-200 dark:bg-slate-800/80 dark:text-purple-400 dark:border-purple-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-purple-500" />
