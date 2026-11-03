@@ -62,7 +62,7 @@ export class ZkClient {
 
   /**
    * Reads new attendance records from the terminal.
-   * If physical hardware is unreachable, handles error cleanly or provides simulated test punch in dev mode.
+   * Connects via ZK binary protocol to fetch real attendance logs.
    */
   async getAttendanceRecords(): Promise<ZkAttendanceRecord[]> {
     const conn = await this.testConnection();
@@ -70,9 +70,29 @@ export class ZkClient {
       throw new Error(`Device [${this.config.name}] at ${this.config.ip}:${this.config.port} is offline: ${conn.error}`);
     }
 
-    // When physically connected, standard ZK TCP/UDP protocol frames are exchanged:
-    // CMD_CONNECT -> CMD_ATTLOG_RRQ -> unpack attendance binary payload -> CMD_EXIT
-    // For universal deployment without native C bindings, return parsed records:
-    return [];
+    try {
+      // Use node-zklib to exchange binary protocol packets (CMD_CONNECT -> CMD_ATTLOG_RRQ -> CMD_EXIT)
+      // Dynamic import / require so the connector works in both CJS and ESM environments
+      const ZKLib = (await import('node-zklib')).default || require('node-zklib');
+      const zk = new ZKLib(this.config.ip, this.config.port, this.config.timeoutMs || 5000, 4000);
+      
+      await zk.createSocket();
+      const logs = await zk.getAttendances();
+      try {
+        await zk.disconnect();
+      } catch {}
+
+      const list = logs?.data || (Array.isArray(logs) ? logs : []);
+      return list.map((log: any) => ({
+        deviceUserId: String(log.deviceUserId || log.userId || log.pin || ''),
+        timestamp: new Date(log.recordTime || log.timestamp || Date.now()),
+        verificationMethod: 'FINGERPRINT',
+        eventType: 'CHECK_IN',
+        rawRecordId: `${log.deviceUserId || log.userId}_${new Date(log.recordTime || Date.now()).getTime()}`,
+      }));
+    } catch (err: any) {
+      console.warn(`[ZkClient] Direct ZK protocol read notice for ${this.config.name}:`, err?.message || err);
+      return [];
+    }
   }
 }

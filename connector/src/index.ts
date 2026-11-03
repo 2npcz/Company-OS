@@ -8,6 +8,8 @@ interface ConnectorConfigFile {
   supabaseUrl: string;
   supabaseKey: string;
   organizationId: string;
+  email?: string;
+  password?: string;
   syncIntervalSeconds?: number;
   heartbeatIntervalSeconds?: number;
   devices: ZkDeviceConfig[];
@@ -54,7 +56,10 @@ async function main() {
     supabaseUrl: config.supabaseUrl,
     supabaseKey: config.supabaseKey,
     organizationId: config.organizationId,
+    email: config.email,
+    password: config.password,
   });
+  await uploader.authenticate();
 
   console.log(`[Connector] Configured for ${config.devices.length} device(s).`);
   console.log(`[Connector] Local persistent queue size: ${queue.size()} pending event(s).`);
