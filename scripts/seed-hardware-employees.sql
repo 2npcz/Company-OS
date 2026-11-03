@@ -52,7 +52,7 @@ begin
     ('7',  'EMP-007', 'Mahima Zakir',         'mahima.zakir@ecoglobalbd.com',  'Marketing Executive',   'Marketing',  'EMPLOYEE'),
     ('8',  'EMP-008', 'Samiha Jakir',         'samiha.jakir@ecoglobalbd.com',  'Marketing Executive',   'Marketing',  'EMPLOYEE'),
     ('9',  'EMP-009', 'Jahedul Islam Lipon',  'jahedul.islam@ecoglobalbd.com', 'Accounts Executive',    'Accounts',   'EMPLOYEE'),
-    ('10', 'EMP-010', 'Talha Jalal',          'talha.jalal@ecoglobalbd.com',   'Operations Executive',  'Operations', 'EMPLOYEE'),
+    ('10', 'EMP-010', 'Talha Jalal',          'talha.jalal@ecoglobalbd.com',   'Developer & IT Lead',   'IT',         'ADMIN'),
     ('11', 'EMP-011', 'Md Mintu',             'md.mintu@ecoglobalbd.com',      'Staff Support',         'Logistics',  'EMPLOYEE'),
     ('12', 'EMP-012', 'Shapon Molla',         'shapon.molla@ecoglobalbd.com',  'Staff Support',         'Logistics',  'EMPLOYEE');
 
