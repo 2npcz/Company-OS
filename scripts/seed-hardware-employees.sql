@@ -140,12 +140,13 @@ begin
     and are.device_user_id = dum.device_user_id;
 
   -- 8. Consolidate into Daily Attendance Sessions (PRESENT records)
+  -- Note: public.attendance.employee_id is text, so cast p.id::text
   insert into public.attendance (
     organization_id, employee_id, employee_name, date, check_in, check_out, status, duty_type, location, remarks
   )
   select
     v_org_id,
-    p.id,
+    p.id::text,
     p.name,
     (are.event_timestamp at time zone 'Asia/Dhaka')::date,
     min(are.event_timestamp),
@@ -165,29 +166,14 @@ begin
     status = 'PRESENT',
     updated = now();
 
-  -- 9. Mark Raw Events as processed
+  -- 9. Mark Raw Events as processed (cast to text matching public.attendance.employee_id)
   update public.attendance_raw_events are
   set 
     processed = true,
     processed_at = now(),
     session_id = att.id
   from public.attendance att
-  where are.employee_id = att.employee_id
+  where are.employee_id::text = att.employee_id
     and (are.event_timestamp at time zone 'Asia/Dhaka')::date = att.date;
 
 end $$;
-
--- Verify results
-select 
-  dum.device_user_id as pin,
-  p.employee_id as code,
-  p.name, 
-  p.department, 
-  p.designation, 
-  count(are.id) as punches_linked
-from public.profiles p
-left join public.device_user_mappings dum on dum.employee_id = p.id
-left join public.attendance_raw_events are on are.employee_id = p.id
-where p.organization_id = (select id from public.organizations where name = 'EcoGlobal Trading BD' limit 1)
-group by dum.device_user_id, p.employee_id, p.name, p.department, p.designation
-order by dum.device_user_id::int asc nulls last;
