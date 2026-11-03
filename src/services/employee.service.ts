@@ -2,6 +2,7 @@
 import { supabase, isSupabaseConfigured, getSupabaseStorageUrl } from './supabase';
 import { apiClient, dedupe, resolveOrgId } from './api.client';
 import { Employee } from '../types';
+import { convertToWebP } from '../utils/imageConvert';
 
 let cachedEmployees: Employee[] | null = null;
 let empCacheTimestamp = 0;
@@ -140,17 +141,45 @@ export const employeeService = {
     const sId = updates.shiftId ?? updates.shift_id;
     if (sId !== undefined) payload.shift_id = sId === '' ? null : sId;
 
-    // Avatar upload to storage
-    if (updates.avatar && typeof updates.avatar === 'string' && updates.avatar.startsWith('data:')) {
-      try {
-        const blob = await (await fetch(updates.avatar)).blob();
-        const path = `${id}/avatar.webp`;
-        const { error: uploadErr } = await supabase.storage
-          .from('avatars')
-          .upload(path, blob, { upsert: true, contentType: 'image/webp' });
-        if (!uploadErr) payload.avatar = path;
-      } catch (e) {
-        console.warn('[EmployeeService] Avatar upload failed:', e);
+    // Avatar upload: Attempt Supabase storage first, gracefully fall back to optimized data URL
+    if (updates.avatar !== undefined) {
+      if (typeof updates.avatar === 'string' && updates.avatar.startsWith('data:')) {
+        let storageSuccess = false;
+        try {
+          const webpBlob = await convertToWebP(updates.avatar, 0.85, 400);
+          const path = `${id}/avatar.webp`;
+          const { error: uploadErr } = await supabase.storage
+            .from('avatars')
+            .upload(path, webpBlob, { upsert: true, contentType: 'image/webp' });
+          if (!uploadErr) {
+            payload.avatar = path;
+            storageSuccess = true;
+          } else {
+            console.warn('[EmployeeService] Storage upload failed, falling back to direct save:', uploadErr.message);
+          }
+        } catch (e) {
+          console.warn('[EmployeeService] Avatar upload error:', e);
+        }
+
+        // Resilient fallback: If storage bucket is missing or upload fails,
+        // compress to lightweight WebP data URL and save directly to Postgres
+        if (!storageSuccess) {
+          try {
+            const webpBlob = await convertToWebP(updates.avatar, 0.8, 300);
+            const reader = new FileReader();
+            const dataUrl = await new Promise<string>((resolve) => {
+              reader.onloadend = () => resolve(reader.result as string);
+              reader.readAsDataURL(webpBlob);
+            });
+            payload.avatar = dataUrl;
+          } catch {
+            payload.avatar = updates.avatar;
+          }
+        }
+      } else if (typeof updates.avatar === 'string' && (updates.avatar.startsWith('http://') || updates.avatar.startsWith('https://'))) {
+        payload.avatar = updates.avatar;
+      } else if (updates.avatar === '' || updates.avatar === null) {
+        payload.avatar = null;
       }
     }
 

@@ -18,8 +18,13 @@ export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON
 export const isSupabaseConfigured = (): boolean =>
   Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 
-export const getSupabaseStorageUrl = (bucket: string, path: string): string =>
-  `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
+export const getSupabaseStorageUrl = (bucket: string, path: string): string => {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+    return path;
+  }
+  return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
+};
 
 export const getSupabaseSignedUrl = async (bucket: string, path: string, expiresIn = 3600): Promise<string | null> => {
   const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, expiresIn);

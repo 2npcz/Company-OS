@@ -367,11 +367,14 @@ const EmployeeDirectory: React.FC<EmployeeDirectoryProps> = ({ user, selectedEmp
       if (editingId) {
         console.log('[EmployeeDirectory] Updating employee:', editingId);
         await hrService.updateProfile(editingId, formState as any);
+        showToast('Employee profile updated successfully', 'success');
       } else {
         console.log('[EmployeeDirectory] Creating new employee');
         await hrService.addEmployee(formState as any);
+        showToast('Employee provisioned successfully', 'success');
       }
       setShowModal(false);
+      await fetchEmployees();
     } catch (err: any) {
       console.error('[EmployeeDirectory] Submit error:', err);
       setFormError(err.message || 'Operation failed. Check server logs.');
@@ -754,8 +757,24 @@ const EmployeeDirectory: React.FC<EmployeeDirectoryProps> = ({ user, selectedEmp
             </div>
             <div className="p-10 space-y-10 max-h-[80vh] overflow-y-auto no-scrollbar">
               <div className="flex flex-col items-center text-center space-y-4">
-                <div className="relative">
+                <div 
+                  className={`relative group ${isAdmin ? 'cursor-pointer' : ''}`}
+                  onClick={() => {
+                    if (isAdmin) {
+                      const empToEdit = showViewModal;
+                      setShowViewModal(null);
+                      handleOpenEdit(empToEdit);
+                    }
+                  }}
+                  title={isAdmin ? 'Click to change photo' : undefined}
+                >
                   <img src={showViewModal.avatar || `https://ui-avatars.com/api/?name=${showViewModal.name}`} className="w-32 h-32 rounded-xl object-cover bg-slate-100 shadow-xl border-4 border-white" />
+                  {isAdmin && (
+                    <div className="absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity">
+                      <Camera size={24} />
+                      <span className="text-[10px] font-bold mt-1 uppercase tracking-wider">Change Photo</span>
+                    </div>
+                  )}
                   <div className={`absolute -bottom-2 -right-2 w-8 h-8 rounded-xl border-2 border-white flex items-center justify-center ${showViewModal.role === 'ADMIN' ? 'bg-rose-500' : 'bg-primary shadow-lg'}`}>
                     <ShieldCheck size={16} className="text-white" />
                   </div>
@@ -794,12 +813,26 @@ const EmployeeDirectory: React.FC<EmployeeDirectoryProps> = ({ user, selectedEmp
                 )}
               </div>
 
-              <button 
-                onClick={() => setShowViewModal(null)}
-                className="w-full py-5 bg-slate-900 text-white rounded-xl font-semibold uppercase text-[11px] tracking-widest shadow-xl"
-              >
-                Close Profile
-              </button>
+              <div className="flex gap-3">
+                {isAdmin && (
+                  <button
+                    onClick={() => {
+                      const empToEdit = showViewModal;
+                      setShowViewModal(null);
+                      handleOpenEdit(empToEdit);
+                    }}
+                    className="flex-1 py-4 bg-primary text-white rounded-xl font-semibold uppercase text-[11px] tracking-widest shadow-lg hover:bg-primary-hover transition-all flex items-center justify-center gap-2"
+                  >
+                    <Edit size={16} /> Edit Profile & Photo
+                  </button>
+                )}
+                <button 
+                  onClick={() => setShowViewModal(null)}
+                  className={`${isAdmin ? 'flex-1' : 'w-full'} py-4 bg-slate-900 text-white rounded-xl font-semibold uppercase text-[11px] tracking-widest shadow-xl`}
+                >
+                  Close Profile
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -826,15 +859,29 @@ const EmployeeDirectory: React.FC<EmployeeDirectoryProps> = ({ user, selectedEmp
               )}
 
               <div className="flex flex-col md:flex-row gap-10 items-center pb-10 border-b border-slate-100">
-                <div 
-                  className="w-40 h-40 rounded-xl bg-slate-50 border-4 border-slate-100 shadow-inner flex items-center justify-center relative overflow-hidden cursor-pointer group flex-shrink-0"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  {formState.avatar ? <img src={formState.avatar} className="w-full h-full object-cover" /> : <Camera size={40} className="text-slate-300" />}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                    <Upload className="text-white" size={24} />
+                <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                  <div 
+                    className="w-40 h-40 rounded-xl bg-slate-50 border-4 border-slate-100 shadow-inner flex items-center justify-center relative overflow-hidden cursor-pointer group"
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Click to select image file"
+                  >
+                    {formState.avatar ? <img src={formState.avatar} className="w-full h-full object-cover" /> : <Camera size={40} className="text-slate-300" />}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity">
+                      <Upload className="text-white" size={24} />
+                      <span className="text-[10px] font-bold mt-1">Upload Photo</span>
+                    </div>
+                    <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleFileChange} />
                   </div>
-                  <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleFileChange} />
+                  <span className="text-[10px] text-slate-400 font-semibold">Click to upload photo</span>
+                  {formState.avatar && (
+                    <button
+                      type="button"
+                      onClick={() => setFormState({ ...formState, avatar: '' })}
+                      className="text-[10px] text-rose-500 hover:underline font-semibold"
+                    >
+                      Remove Photo
+                    </button>
+                  )}
                 </div>
                 
                 <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">

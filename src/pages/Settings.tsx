@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   User, ArrowLeft, Save, RefreshCw, Mail, UserCheck, Hash, Lock, Key, Eye, EyeOff,
-  Send, Loader2, CheckCircle, AlertCircle, MessageSquare, Clock, Users
+  Send, Loader2, CheckCircle, AlertCircle, MessageSquare, Clock, Users, Camera, Upload
 } from 'lucide-react';
 import { hrService } from '../services/hrService';
 import { User as UserType, Employee, Shift } from '../types';
@@ -63,6 +63,32 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
   const isAdmin = user.role === 'ADMIN';
   const [myShift, setMyShift] = useState<Shift | null>(null);
   const [myTeamName, setMyTeamName] = useState<string>('No Team');
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const targetId = profile?.id || user.id;
+    if (!targetId) return;
+
+    setIsUploadingAvatar(true);
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      try {
+        const dataUrl = reader.result as string;
+        await hrService.updateProfile(targetId, { avatar: dataUrl });
+        setProfile(prev => prev ? { ...prev, avatar: dataUrl } : null);
+        showToast('Profile photo updated successfully', 'success');
+      } catch (err: any) {
+        showToast(err.message || 'Failed to update photo', 'error');
+      } finally {
+        setIsUploadingAvatar(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -209,13 +235,29 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
       ) : (
         <div className="max-w-3xl">
           <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-10 space-y-8 animate-in slide-in-from-left-4">
-            <div className="flex items-center gap-4 border-b border-slate-50 pb-8">
-              <div className="w-20 h-20 bg-primary-light rounded-xl flex items-center justify-center text-primary font-semibold text-2xl uppercase relative overflow-hidden">
+            <div className="flex items-center gap-5 border-b border-slate-50 pb-8">
+              <div 
+                className="w-20 h-20 bg-primary-light rounded-2xl flex items-center justify-center text-primary font-semibold text-2xl uppercase relative overflow-hidden cursor-pointer group shadow-sm border border-slate-200 dark:border-slate-700 flex-shrink-0"
+                onClick={() => avatarInputRef.current?.click()}
+                title="Click to change your profile picture"
+              >
                  {profile.avatar ? <img src={profile.avatar} className="w-full h-full object-cover" /> : profile.name?.[0]}
+                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity">
+                   {isUploadingAvatar ? <RefreshCw className="animate-spin" size={18} /> : <Camera size={18} />}
+                   <span className="text-[8px] font-bold uppercase mt-1">Change</span>
+                 </div>
+                 <input type="file" ref={avatarInputRef} hidden accept="image/*" onChange={handleAvatarChange} />
               </div>
               <div>
                  <h3 className="text-xl font-semibold text-slate-900">{profile.name}</h3>
                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{profile.designation} • {profile.department}</p>
+                 <button
+                   type="button"
+                   onClick={() => avatarInputRef.current?.click()}
+                   className="text-[11px] font-semibold text-primary hover:text-primary-hover transition-colors mt-1 inline-flex items-center gap-1"
+                 >
+                   <Camera size={12} /> {isUploadingAvatar ? 'Updating...' : 'Change profile photo'}
+                 </button>
               </div>
             </div>
 
