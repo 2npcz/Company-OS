@@ -20,7 +20,6 @@ import {
   Briefcase,
   Calendar,
 } from 'lucide-react';
-import HelpButton from './onboarding/HelpButton';
 
 interface SidebarProps {
   currentPath: string;
@@ -107,12 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
                 <item.icon size={22} className={currentPath === item.id ? 'text-primary dark:text-cyan-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white'} />
                 <span className="font-bold text-sm tracking-tight">{item.label}</span>
               </div>
-              <div className="flex items-center gap-1">
-                {!isSuperAdmin && (
-                  <HelpButton helpPointId={`sidebar.${item.id}`} size={14} variant="sidebar" />
-                )}
-                <ChevronRight size={16} className={`transition-all duration-300 ${currentPath === item.id ? 'text-primary dark:text-cyan-400 opacity-100 translate-x-0' : 'text-slate-200 dark:text-slate-600 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`} />
-              </div>
+              <ChevronRight size={16} className={`transition-all duration-300 ${currentPath === item.id ? 'text-primary dark:text-cyan-400 opacity-100 translate-x-0' : 'text-slate-200 dark:text-slate-600 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`} />
             </button>
           </div>
         ))}
