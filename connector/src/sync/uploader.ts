@@ -36,6 +36,24 @@ export class SupabaseUploader {
     }
   }
 
+  async updateDeviceIp(deviceId: string, newIp: string): Promise<void> {
+    try {
+      await this.client
+        .from('attendance_devices')
+        .update({
+          ip_address: newIp,
+          connection_status: 'ONLINE',
+          last_heartbeat_at: new Date().toISOString(),
+          updated: new Date().toISOString(),
+        })
+        .eq('id', deviceId)
+        .eq('organization_id', this.orgId);
+      console.log(`[Uploader] Updated device ${deviceId} IP in Supabase to ${newIp}`);
+    } catch (e: any) {
+      console.warn(`[Uploader] Failed to update device IP in database:`, e.message);
+    }
+  }
+
   async uploadEvents(
     events: QueuedAttendanceEvent[]
   ): Promise<{ uploadedIds: string[]; failedIds: string[]; error?: string }> {
@@ -103,88 +121,121 @@ export class SupabaseUploader {
 
   async processSessions(): Promise<void> {
     try {
-      const { data: rawEvents } = await this.client
-        .from('attendance_raw_events')
-        .select('id, device_user_id, employee_id, event_timestamp, verification_method, employee:profiles!employee_id(id, name)')
-        .eq('organization_id', this.orgId)
-        .eq('processed', false)
-        .not('employee_id', 'is', null)
-        .order('event_timestamp', { ascending: true })
-        .limit(200);
-
-      if (!rawEvents || rawEvents.length === 0) return;
-
-      const groups = new Map<string, typeof rawEvents>();
-      for (const ev of rawEvents) {
-        const dateYMD = new Date(ev.event_timestamp).toISOString().split('T')[0];
-        const key = `${ev.employee_id}:${dateYMD}`;
-        const list = groups.get(key) || [];
-        list.push(ev);
-        groups.set(key, list);
-      }
-
-      for (const [key, evList] of groups.entries()) {
-        const [employeeId, dateYMD] = key.split(':');
-        const employeeName = (evList[0] as any)?.employee?.name || null;
-        const timestamps = evList.map((e) => new Date(e.event_timestamp).getTime()).sort();
-        const earliestISO = new Date(timestamps[0]).toISOString();
-        const latestISO = timestamps.length > 1 ? new Date(timestamps[timestamps.length - 1]).toISOString() : null;
-
-        const { data: existingSession } = await this.client
-          .from('attendance')
-          .select('id, check_in, check_out, employee_name')
+      // Loop in batches of 200 until all unprocessed events are ingested
+      while (true) {
+        const { data: rawEvents, error: fetchErr } = await this.client
+          .from('attendance_raw_events')
+          .select('id, device_user_id, employee_id, event_timestamp, verification_method, employee:profiles!employee_id(id, name)')
           .eq('organization_id', this.orgId)
-          .eq('employee_id', employeeId)
-          .eq('date', dateYMD)
-          .maybeSingle();
+          .eq('processed', false)
+          .not('employee_id', 'is', null)
+          .order('event_timestamp', { ascending: true })
+          .limit(200);
 
-        let targetSessionId = existingSession?.id;
-
-        if (existingSession) {
-          const updates: any = {};
-          if (!existingSession.employee_name && employeeName) {
-            updates.employee_name = employeeName;
-          }
-          if (!existingSession.check_in || new Date(earliestISO) < new Date(existingSession.check_in)) {
-            updates.check_in = earliestISO;
-          }
-          if (latestISO && (!existingSession.check_out || new Date(latestISO) > new Date(existingSession.check_out))) {
-            updates.check_out = latestISO;
-          }
-          if (Object.keys(updates).length > 0) {
-            updates.updated = new Date().toISOString();
-            await this.client.from('attendance').update(updates).eq('id', existingSession.id);
-          }
-        } else {
-          const { data: ins } = await this.client
-            .from('attendance')
-            .insert({
-              organization_id: this.orgId,
-              employee_id: employeeId,
-              employee_name: employeeName,
-              date: dateYMD,
-              check_in: earliestISO,
-              check_out: latestISO,
-              status: 'PRESENT',
-              duty_type: 'OFFICE',
-              location: 'Biometric MB460 Terminal',
-              remarks: `Ingested from Terminal (${evList[0].verification_method})`,
-            })
-            .select('id')
-            .single();
-
-          if (ins) targetSessionId = ins.id;
+        if (fetchErr) {
+          console.warn('[Uploader] Fetch unprocessed raw events error:', fetchErr.message);
+          break;
         }
 
-        const eventIds = evList.map((e) => e.id);
-        await this.client
-          .from('attendance_raw_events')
-          .update({
-            processed: true,
-            processed_at: new Date().toISOString(),
-            session_id: targetSessionId || null,
-          })
-          .in('id', eventIds);
+        if (!rawEvents || rawEvents.length === 0) {
+          break;
+        }
+
+        // Group events by employee_id + local Asia/Dhaka date (YYYY-MM-DD)
+        const groups = new Map<string, typeof rawEvents>();
+        for (const ev of rawEvents) {
+          const d = new Date(ev.event_timestamp);
+          const dateYMD = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dhaka' }).format(d);
+          const key = `${ev.employee_id}:${dateYMD}`;
+          const list = groups.get(key) || [];
+          list.push(ev);
+          groups.set(key, list);
+        }
+
+        for (const [key, evList] of groups.entries()) {
+          const [employeeId, dateYMD] = key.split(':');
+          const employeeName = (evList[0] as any)?.employee?.name || null;
+          const timestamps = evList.map((e) => new Date(e.event_timestamp).getTime()).sort((a, b) => a - b);
+          const earliestISO = new Date(timestamps[0]).toISOString();
+          const latestISO =
+            timestamps.length > 1 && timestamps[timestamps.length - 1] > timestamps[0]
+              ? new Date(timestamps[timestamps.length - 1]).toISOString()
+              : null;
+
+          const { data: existingSession } = await this.client
+            .from('attendance')
+            .select('id, check_in, check_out, employee_name')
+            .eq('organization_id', this.orgId)
+            .eq('employee_id', employeeId)
+            .eq('date', dateYMD)
+            .maybeSingle();
+
+          let targetSessionId = existingSession?.id;
+
+          if (existingSession) {
+            // Merge all timestamps together (existing check_in/out + current batch timestamps)
+            const allTimes: number[] = [timestamps[0]];
+            if (timestamps.length > 1) allTimes.push(timestamps[timestamps.length - 1]);
+            if (existingSession.check_in) allTimes.push(new Date(existingSession.check_in).getTime());
+            if (existingSession.check_out) allTimes.push(new Date(existingSession.check_out).getTime());
+            allTimes.sort((a, b) => a - b);
+
+            const mergedCheckIn = new Date(allTimes[0]).toISOString();
+            const mergedCheckOut =
+              allTimes.length > 1 && allTimes[allTimes.length - 1] > allTimes[0]
+                ? new Date(allTimes[allTimes.length - 1]).toISOString()
+                : null;
+
+            const updates: any = {};
+            if (!existingSession.employee_name && employeeName) {
+              updates.employee_name = employeeName;
+            }
+            if (existingSession.check_in !== mergedCheckIn) {
+              updates.check_in = mergedCheckIn;
+            }
+            if (existingSession.check_out !== mergedCheckOut) {
+              updates.check_out = mergedCheckOut;
+            }
+
+            if (Object.keys(updates).length > 0) {
+              updates.updated = new Date().toISOString();
+              await this.client.from('attendance').update(updates).eq('id', existingSession.id);
+            }
+          } else {
+            const { data: ins } = await this.client
+              .from('attendance')
+              .insert({
+                organization_id: this.orgId,
+                employee_id: employeeId,
+                employee_name: employeeName,
+                date: dateYMD,
+                check_in: earliestISO,
+                check_out: latestISO,
+                status: 'PRESENT',
+                duty_type: 'OFFICE',
+                location: 'Biometric MB460 Terminal',
+                remarks: `Ingested from Terminal (${evList[0].verification_method || 'FINGERPRINT'})`,
+              })
+              .select('id')
+              .single();
+
+            if (ins) targetSessionId = ins.id;
+          }
+
+          const eventIds = evList.map((e) => e.id);
+          await this.client
+            .from('attendance_raw_events')
+            .update({
+              processed: true,
+              processed_at: new Date().toISOString(),
+              session_id: targetSessionId || null,
+            })
+            .in('id', eventIds);
+        }
+
+        if (rawEvents.length < 200) {
+          break;
+        }
       }
     } catch (e) {
       console.warn('[Uploader] Session processing notice:', e);

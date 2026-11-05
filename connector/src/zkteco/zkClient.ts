@@ -19,7 +19,7 @@ export interface ZkAttendanceRecord {
 }
 
 export class ZkClient {
-  private config: Required<Pick<ZkDeviceConfig, 'port' | 'timeoutMs'>> & ZkDeviceConfig;
+  public config: Required<Pick<ZkDeviceConfig, 'port' | 'timeoutMs'>> & ZkDeviceConfig;
 
   constructor(config: ZkDeviceConfig) {
     this.config = {
@@ -32,8 +32,9 @@ export class ZkClient {
   /**
    * Tests TCP reachability to the ZKTeco device on port 4370.
    */
-  async testConnection(): Promise<{ success: boolean; latencyMs?: number; error?: string }> {
+  async testConnection(overrideIp?: string): Promise<{ success: boolean; latencyMs?: number; error?: string }> {
     const start = Date.now();
+    const targetIp = overrideIp || this.config.ip;
     return new Promise((resolve) => {
       const socket = new net.Socket();
       const timeout = this.config.timeoutMs || 4000;
@@ -56,8 +57,49 @@ export class ZkClient {
         resolve({ success: false, error: err.message });
       });
 
-      socket.connect(this.config.port, this.config.ip);
+      socket.connect(this.config.port, targetIp);
     });
+  }
+
+  /**
+   * Scans the local subnet for any ZKTeco device listening on port 4370.
+   * Completes in ~500ms using parallel non-blocking sockets.
+   */
+  static async discoverDevice(
+    baseIpOrSubnet = '192.168.68',
+    port = 4370,
+    timeoutMs = 500
+  ): Promise<string | null> {
+    const parts = baseIpOrSubnet.split('.');
+    const subnetPrefix = parts.length >= 3 ? parts.slice(0, 3).join('.') : '192.168.68';
+
+    const probes: Promise<string | null>[] = [];
+    for (let i = 1; i <= 254; i++) {
+      const targetIp = `${subnetPrefix}.${i}`;
+      probes.push(
+        new Promise<string | null>((resolve) => {
+          const s = new net.Socket();
+          s.setTimeout(timeoutMs);
+          s.on('connect', () => {
+            s.destroy();
+            resolve(targetIp);
+          });
+          s.on('timeout', () => {
+            s.destroy();
+            resolve(null);
+          });
+          s.on('error', () => {
+            s.destroy();
+            resolve(null);
+          });
+          s.connect(port, targetIp);
+        })
+      );
+    }
+
+    const results = await Promise.all(probes);
+    const discovered = results.filter((ip): ip is string => ip !== null);
+    return discovered.length > 0 ? discovered[0] : null;
   }
 
   /**
@@ -71,7 +113,6 @@ export class ZkClient {
     }
 
     try {
-      // Use node-zklib to exchange binary protocol packets (CMD_CONNECT -> CMD_ATTLOG_RRQ -> CMD_EXIT)
       // Dynamic import / require so the connector works in both CJS and ESM environments
       const ZKLib = (await import('node-zklib')).default || require('node-zklib');
       const zk = new ZKLib(this.config.ip, this.config.port, this.config.timeoutMs || 5000, 4000);

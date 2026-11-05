@@ -17,6 +17,8 @@ export interface QueuedAttendanceEvent {
 
 export class LocalQueue {
   private queueFilePath: string;
+  private syncedFilePath: string;
+  private syncedSet: Set<string>;
 
   constructor(storageDir?: string) {
     const dir = storageDir || path.resolve(process.cwd(), 'data');
@@ -27,6 +29,30 @@ export class LocalQueue {
     if (!fs.existsSync(this.queueFilePath)) {
       fs.writeFileSync(this.queueFilePath, JSON.stringify([]));
     }
+
+    this.syncedFilePath = path.join(dir, 'synced_ids.json');
+    if (!fs.existsSync(this.syncedFilePath)) {
+      fs.writeFileSync(this.syncedFilePath, JSON.stringify([]));
+    }
+
+    this.syncedSet = new Set<string>();
+    try {
+      const raw = fs.readFileSync(this.syncedFilePath, 'utf8');
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr)) {
+        this.syncedSet = new Set(arr);
+      }
+    } catch {
+      this.syncedSet = new Set<string>();
+    }
+  }
+
+  isSynced(externalEventId: string): boolean {
+    return this.syncedSet.has(externalEventId);
+  }
+
+  getSyncedCount(): number {
+    return this.syncedSet.size;
   }
 
   readAll(): QueuedAttendanceEvent[] {
@@ -39,16 +65,35 @@ export class LocalQueue {
     }
   }
 
-  enqueue(events: QueuedAttendanceEvent[]): void {
-    if (events.length === 0) return;
+  enqueue(events: QueuedAttendanceEvent[]): number {
+    if (events.length === 0) return 0;
     const existing = this.readAll();
     const existingIds = new Set(existing.map((e) => e.externalEventId));
 
-    const newItems = events.filter((e) => !existingIds.has(e.externalEventId));
+    const newItems = events.filter(
+      (e) => !existingIds.has(e.externalEventId) && !this.syncedSet.has(e.externalEventId)
+    );
+
     if (newItems.length > 0) {
       const updated = [...existing, ...newItems];
-      this.writeAtomic(updated);
+      this.writeAtomic(this.queueFilePath, updated);
     }
+
+    return newItems.length;
+  }
+
+  markSynced(externalEventIds: string[]): void {
+    if (externalEventIds.length === 0) return;
+    for (const id of externalEventIds) {
+      this.syncedSet.add(id);
+    }
+    this.writeAtomic(this.syncedFilePath, Array.from(this.syncedSet));
+    this.remove(externalEventIds);
+  }
+
+  resetSynced(): void {
+    this.syncedSet.clear();
+    this.writeAtomic(this.syncedFilePath, []);
   }
 
   remove(externalEventIds: string[]): void {
@@ -56,7 +101,7 @@ export class LocalQueue {
     const idsToRemove = new Set(externalEventIds);
     const existing = this.readAll();
     const remaining = existing.filter((e) => !idsToRemove.has(e.externalEventId));
-    this.writeAtomic(remaining);
+    this.writeAtomic(this.queueFilePath, remaining);
   }
 
   incrementRetry(externalEventIds: string[]): void {
@@ -68,16 +113,16 @@ export class LocalQueue {
       }
       return e;
     });
-    this.writeAtomic(updated);
+    this.writeAtomic(this.queueFilePath, updated);
   }
 
   size(): number {
     return this.readAll().length;
   }
 
-  private writeAtomic(data: QueuedAttendanceEvent[]): void {
-    const tempFile = `${this.queueFilePath}.tmp`;
+  private writeAtomic(filePath: string, data: any): void {
+    const tempFile = `${filePath}.tmp`;
     fs.writeFileSync(tempFile, JSON.stringify(data, null, 2), 'utf8');
-    fs.renameSync(tempFile, this.queueFilePath);
+    fs.renameSync(tempFile, filePath);
   }
 }

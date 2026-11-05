@@ -37,13 +37,24 @@ function loadConfig(): ConnectorConfigFile {
   };
 }
 
+function saveConfig(config: ConnectorConfigFile): void {
+  try {
+    const configPath = path.resolve(process.cwd(), 'config.json');
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf8');
+    console.log('[Connector] Successfully updated config.json with discovered device parameters.');
+  } catch (e: any) {
+    console.warn('[Connector] Failed to write config.json:', e.message);
+  }
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const isTestConn = args.includes('--test-connection');
   const isSyncNow = args.includes('--sync-now');
+  const isResyncAll = args.includes('--resync-all');
 
   console.log('====================================================');
-  console.log('Company OS — ZKTeco Local Attendance Connector v1.0');
+  console.log('Company OS — ZKTeco Local Attendance Connector v2.0');
   console.log('====================================================');
 
   const config = loadConfig();
@@ -52,6 +63,11 @@ async function main() {
   }
 
   const queue = new LocalQueue();
+  if (isResyncAll) {
+    console.log('[Connector] --resync-all requested: Resetting local synced cache...');
+    queue.resetSynced();
+  }
+
   const uploader = new SupabaseUploader({
     supabaseUrl: config.supabaseUrl,
     supabaseKey: config.supabaseKey,
@@ -62,14 +78,24 @@ async function main() {
   await uploader.authenticate();
 
   console.log(`[Connector] Configured for ${config.devices.length} device(s).`);
-  console.log(`[Connector] Local persistent queue size: ${queue.size()} pending event(s).`);
+  console.log(`[Connector] Local persistent queue: ${queue.size()} pending, ${queue.getSyncedCount()} already synced.`);
 
   // Handle --test-connection CLI flag
   if (isTestConn) {
     console.log('\n--- Testing TCP Connectivity to Configured Terminals ---');
     for (const dev of config.devices) {
       const client = new ZkClient(dev);
-      const res = await client.testConnection();
+      let res = await client.testConnection();
+      if (!res.success) {
+        console.log(`[Connector] Probing local subnet for ${dev.name}...`);
+        const disc = await ZkClient.discoverDevice(dev.ip, dev.port);
+        if (disc) {
+          console.log(`[Connector] Auto-discovered ${dev.name} at ${disc}!`);
+          dev.ip = disc;
+          saveConfig(config);
+          res = await client.testConnection(disc);
+        }
+      }
       if (res.success) {
         console.log(`[PASS] ${dev.name} (${dev.ip}:${dev.port}) -> Connected in ${res.latencyMs}ms`);
       } else {
@@ -85,17 +111,34 @@ async function main() {
 
     for (const dev of config.devices) {
       const client = new ZkClient(dev);
-      const connTest = await client.testConnection();
+      let connTest = await client.testConnection();
+
+      // If offline, attempt fast subnet auto-discovery
+      if (!connTest.success) {
+        console.warn(`[Connector] ${dev.name} (${dev.ip}:${dev.port}) unreachable (${connTest.error}). Initiating subnet auto-discovery...`);
+        const discoveredIp = await ZkClient.discoverDevice(dev.ip, dev.port);
+        if (discoveredIp && discoveredIp !== dev.ip) {
+          console.log(`[Connector] Auto-discovered ${dev.name} at new IP: ${discoveredIp}! Healing configuration...`);
+          dev.ip = discoveredIp;
+          client.config.ip = discoveredIp;
+          saveConfig(config);
+
+          if (dev.id) {
+            await uploader.updateDeviceIp(dev.id, discoveredIp);
+          }
+
+          connTest = await client.testConnection();
+        }
+      }
 
       if (connTest.success) {
-        console.log(`[Connector] ${dev.name} is ONLINE (${connTest.latencyMs}ms)`);
+        console.log(`[Connector] ${dev.name} is ONLINE (${connTest.latencyMs}ms at ${dev.ip})`);
         if (dev.id) {
           await uploader.sendHeartbeat(dev.id, 'ONLINE');
         }
 
         try {
           const records = await client.getAttendanceRecords();
-          console.log(`[Connector] Retrieved ${records.length} new punch event(s) from ${dev.name}`);
 
           if (records.length > 0) {
             const queuedItems: QueuedAttendanceEvent[] = records.map((r, idx) => ({
@@ -112,7 +155,12 @@ async function main() {
               retryCount: 0,
             }));
 
-            queue.enqueue(queuedItems);
+            const newlyEnqueued = queue.enqueue(queuedItems);
+            if (newlyEnqueued > 0) {
+              console.log(`[Connector] Retrieved ${records.length} records (${newlyEnqueued} new punch event(s) to upload) from ${dev.name}`);
+            } else {
+              console.log(`[Connector] Terminal buffer: ${records.length} punches (all up to date).`);
+            }
           }
         } catch (err: any) {
           console.error(`[Connector] Error pulling events from ${dev.name}:`, err.message);
@@ -133,15 +181,16 @@ async function main() {
 
       if (uploadRes.uploadedIds.length > 0) {
         console.log(`[Connector] Successfully uploaded ${uploadRes.uploadedIds.length} event(s).`);
-        queue.remove(uploadRes.uploadedIds);
+        queue.markSynced(uploadRes.uploadedIds);
       }
       if (uploadRes.failedIds.length > 0) {
         console.warn(`[Connector] ${uploadRes.failedIds.length} event(s) failed upload. Kept in queue for next retry.`);
         queue.incrementRetry(uploadRes.failedIds);
       }
-    } else {
-      console.log('[Connector] Local queue empty. All punches in sync.');
     }
+
+    // Always run session catch-up to ensure daily consolidated attendance records match raw events
+    await uploader.processSessions();
   }
 
   // Initial Run
