@@ -121,15 +121,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate, onLogout, ro
         <div className="pt-4 pb-2 space-y-4">
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-3xl group hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all"
+            className="w-full flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 rounded-3xl group hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:border-rose-200 dark:hover:border-rose-900/60 transition-all duration-200 cursor-pointer shadow-xs hover:shadow-sm"
           >
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm text-slate-600 dark:text-slate-300 group-hover:text-rose-600 transition-colors">
+              <div className="p-3 bg-white dark:bg-slate-800 group-hover:bg-rose-100 dark:group-hover:bg-rose-900/60 rounded-2xl shadow-sm text-slate-600 dark:text-slate-300 group-hover:text-rose-600 dark:group-hover:text-rose-300 transition-all duration-200">
                 <LogOut size={20} />
               </div>
-              <span className="font-semibold text-sm text-slate-900 dark:text-slate-200 uppercase tracking-tight">Sign Out</span>
+              <span className="font-semibold text-sm text-slate-900 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-300 uppercase tracking-tight transition-colors">Sign Out</span>
             </div>
-            <ChevronRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-rose-300 transition-colors" />
+            <ChevronRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-rose-500 dark:group-hover:text-rose-400 group-hover:translate-x-1 transition-all duration-200" />
           </button>
 
           <div className="text-center">

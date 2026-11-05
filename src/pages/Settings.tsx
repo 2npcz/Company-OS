@@ -217,10 +217,10 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
     <div className="space-y-8 animate-in fade-in duration-500 pb-4">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          {onBack && <button onClick={onBack} className="p-2 hover:bg-slate-100 rounded-xl transition-all"><ArrowLeft size={20} /></button>}
+          {onBack && <button onClick={onBack} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all text-slate-600 dark:text-slate-300"><ArrowLeft size={20} /></button>}
           <div>
-            <div className="flex items-center gap-2"><h1 className="text-3xl font-bold text-slate-900 tracking-tight">System & Profile</h1><HelpButton helpPointId="settings.profile" /></div>
-            <p className="text-slate-500 font-medium">Manage preferences, appearance, and personal data</p>
+            <div className="flex items-center gap-2"><h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">System & Profile</h1><HelpButton helpPointId="settings.profile" /></div>
+            <p className="text-slate-500 dark:text-slate-400 font-medium">Manage preferences, appearance, and personal data</p>
           </div>
         </div>
       </header>
@@ -234,8 +234,8 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
         <ProfileSkeleton />
       ) : (
         <div className="max-w-3xl">
-          <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-10 space-y-8 animate-in slide-in-from-left-4">
-            <div className="flex items-center gap-5 border-b border-slate-50 pb-8">
+          <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-10 space-y-8 animate-in slide-in-from-left-4">
+            <div className="flex items-center gap-5 border-b border-slate-100 dark:border-slate-800 pb-8">
               <div 
                 className="w-20 h-20 bg-primary-light rounded-2xl flex items-center justify-center text-primary font-semibold text-2xl uppercase relative overflow-hidden cursor-pointer group shadow-sm border border-slate-200 dark:border-slate-700 flex-shrink-0"
                 onClick={() => avatarInputRef.current?.click()}
@@ -249,12 +249,12 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
                  <input type="file" ref={avatarInputRef} hidden accept="image/*" onChange={handleAvatarChange} />
               </div>
               <div>
-                 <h3 className="text-xl font-semibold text-slate-900">{profile.name}</h3>
-                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{profile.designation} • {profile.department}</p>
+                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white">{profile.name}</h3>
+                 <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">{profile.designation} • {profile.department}</p>
                  <button
                    type="button"
                    onClick={() => avatarInputRef.current?.click()}
-                   className="text-[11px] font-semibold text-primary hover:text-primary-hover transition-colors mt-1 inline-flex items-center gap-1"
+                   className="text-[11px] font-semibold text-primary dark:text-cyan-400 hover:text-primary-hover transition-colors mt-1 inline-flex items-center gap-1"
                  >
                    <Camera size={12} /> {isUploadingAvatar ? 'Updating...' : 'Change profile photo'}
                  </button>
@@ -263,62 +263,62 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Official Employee ID</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Official Employee ID</label>
                 <div className="relative">
-                  <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 border border-slate-200 rounded-2xl font-semibold text-sm text-slate-500 cursor-not-allowed" value={profile.employeeId || 'Not Assigned'} />
+                  <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
+                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-semibold text-sm text-slate-500 dark:text-slate-400 cursor-not-allowed" value={profile.employeeId || 'Not Assigned'} />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Reporting To</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Reporting To</label>
                 <div className="relative">
-                  <UserCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 border border-slate-200 rounded-2xl font-semibold text-sm text-slate-500 cursor-not-allowed" value={profile.managerName || 'No Direct Manager'} />
+                  <UserCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
+                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-semibold text-sm text-slate-500 dark:text-slate-400 cursor-not-allowed" value={profile.managerName || 'No Direct Manager'} />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Team</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Team</label>
                 <div className="relative">
-                  <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 border border-slate-200 rounded-2xl font-semibold text-sm text-slate-500 cursor-not-allowed" value={myTeamName} />
+                  <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
+                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-semibold text-sm text-slate-500 dark:text-slate-400 cursor-not-allowed" value={myTeamName} />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Assigned Shift</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Assigned Shift</label>
                 <div className="relative">
-                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 border border-slate-200 rounded-2xl font-semibold text-sm text-slate-500 cursor-not-allowed" value={myShift ? `${myShift.name} (${myShift.startTime} - ${myShift.endTime})` : 'No Shift Assigned'} />
+                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
+                  <input type="text" readOnly className="w-full pl-12 pr-4 py-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-semibold text-sm text-slate-500 dark:text-slate-400 cursor-not-allowed" value={myShift ? `${myShift.name} (${myShift.startTime} - ${myShift.endTime})` : 'No Shift Assigned'} />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Full Name</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Full Name</label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                  <input type="text" className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" value={profile.name || ''} onChange={e => setProfile({...profile, name: e.target.value})} />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
+                  <input type="text" className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" value={profile.name || ''} onChange={e => setProfile({...profile, name: e.target.value})} />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Work Email</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Work Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
-                  <input type="email" className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" value={profile.email || user.email || ''} onChange={e => setProfile({...profile, email: e.target.value})} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
+                  <input type="email" className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" value={profile.email || user.email || ''} onChange={e => setProfile({...profile, email: e.target.value})} />
                 </div>
               </div>
             </div>
 
             {/* Password Section */}
-            <div className="pt-6 border-t border-slate-50">
-               <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-tight flex items-center gap-2 mb-4">
-                  <Lock size={16} className="text-primary"/> Security Settings
+            <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
+               <h4 className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-2 mb-4">
+                  <Lock size={16} className="text-primary dark:text-cyan-400"/> Security Settings
                </h4>
                <div className="space-y-1.5 mb-6">
-                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Current Password</label>
+                    <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Current Password</label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter current password"
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
                         value={currentPassword}
                         onChange={e => setCurrentPassword(e.target.value)}
                       />
@@ -326,13 +326,13 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
                </div>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">New Password</label>
+                    <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">New Password</label>
                     <div className="relative">
-                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
                       <input 
                         type={showPassword ? "text" : "password"} 
                         placeholder="Leave blank to keep current"
-                        className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" 
+                        className="w-full pl-12 pr-12 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" 
                         value={newPassword}
                         onChange={e => setNewPassword(e.target.value)}
                       />
@@ -342,13 +342,13 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Confirm New Password</label>
+                    <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Confirm New Password</label>
                     <div className="relative">
-                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
                       <input 
                         type={showPassword ? "text" : "password"} 
                         placeholder="Confirm changes"
-                        className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" 
+                        className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light" 
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)}
                       />
@@ -370,7 +370,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
       {/* Admin Verification Panel */}
       {isAdmin && (
         <div className="max-w-3xl animate-in slide-in-from-bottom-8">
-          <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6 flex items-center gap-2">
             <UserCheck size={24} className="text-emerald-500" /> Admin Tools
           </h3>
           <AdminVerificationPanel />
@@ -382,52 +382,52 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
 
       {/* Contact Support */}
       <div className="max-w-3xl animate-in slide-in-from-bottom-8">
-        <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-6 flex items-center gap-2">
-          <MessageSquare size={24} className="text-primary" /> Contact Support
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6 flex items-center gap-2">
+          <MessageSquare size={24} className="text-primary dark:text-cyan-400" /> Contact Support
         </h3>
-        <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-10 space-y-6">
-          <p className="text-sm text-slate-500">Have a question, feedback, or need help? Send us a message and we'll get back to you.</p>
+        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-10 space-y-6">
+          <p className="text-sm text-slate-500 dark:text-slate-400">Have a question, feedback, or need help? Send us a message and we'll get back to you.</p>
           <form onSubmit={handleContactSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Name</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Name</label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
                   <input
                     type="text"
                     value={contactForm.name}
                     onChange={e => setContactForm(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
+                    className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
                   />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Email</label>
+                <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Email</label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={16} />
                   <input
                     type="email"
                     value={contactForm.email}
                     onChange={e => setContactForm(prev => ({ ...prev, email: e.target.value }))}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
+                    className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
                   />
                 </div>
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Subject</label>
+              <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Subject</label>
               <input
                 type="text"
                 value={contactForm.subject}
                 onChange={e => setContactForm(prev => ({ ...prev, subject: e.target.value }))}
                 placeholder="What is this about?"
-                className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
+                className="w-full px-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">
+              <label className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">
                 Message <span className="text-red-400">*</span>
               </label>
               <textarea
@@ -435,7 +435,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onBack }) => {
                 onChange={e => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                 placeholder="Tell us what's on your mind..."
                 rows={4}
-                className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light resize-none"
+                className="w-full px-4 py-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl font-bold text-sm outline-none focus:ring-4 focus:ring-primary-light resize-none"
               />
             </div>
 

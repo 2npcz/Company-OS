@@ -47,7 +47,7 @@ export const EventDetailModal: React.FC<Props> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 flex flex-col">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col">
         {/* Header colored banner */}
         <div
           className="p-5 text-white flex items-start justify-between relative"
@@ -61,7 +61,7 @@ export const EventDetailModal: React.FC<Props> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
+            className="p-1.5 text-white/80 hover:text-white hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -71,12 +71,12 @@ export const EventDetailModal: React.FC<Props> = ({
         <div className="p-6 space-y-4">
           <div className="space-y-3">
             {/* Date & Time */}
-            <div className="flex items-center gap-3 text-sm text-slate-700">
-              <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 flex-shrink-0">
+            <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+              <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 flex-shrink-0">
                 <Calendar size={16} />
               </div>
               <div>
-                <span className="font-semibold block">
+                <span className="font-semibold block text-slate-900 dark:text-white">
                   {new Date(item.date).toLocaleDateString('en-GB', {
                     weekday: 'long',
                     day: 'numeric',
@@ -85,7 +85,7 @@ export const EventDetailModal: React.FC<Props> = ({
                   })}
                 </span>
                 {item.time && (
-                  <span className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
                     <Clock size={12} /> {item.time}
                   </span>
                 )}
@@ -94,8 +94,8 @@ export const EventDetailModal: React.FC<Props> = ({
 
             {/* Location */}
             {item.location && (
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500 flex-shrink-0">
+              <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+                <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 flex-shrink-0">
                   <MapPin size={16} />
                 </div>
                 <span className="font-medium">{item.location}</span>
@@ -109,7 +109,7 @@ export const EventDetailModal: React.FC<Props> = ({
                   href={item.meetingLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-xl transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-xs font-bold rounded-xl border border-indigo-200/60 dark:border-indigo-800/50 transition-colors"
                 >
                   <ExternalLink size={14} />
                   <span>Join Video Meeting</span>
@@ -119,17 +119,17 @@ export const EventDetailModal: React.FC<Props> = ({
 
             {/* Assignee / Out of office person */}
             {item.assigneeName && (
-              <div className="flex items-center gap-3 text-sm text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+              <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-100 dark:border-slate-800">
                 {item.assigneeAvatar ? (
                   <img src={item.assigneeAvatar} alt="" className="w-8 h-8 rounded-full object-cover" />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs">
+                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">
                     {item.assigneeName[0].toUpperCase()}
                   </div>
                 )}
                 <div>
                   <span className="text-xs text-slate-400 block font-medium">Team Member</span>
-                  <span className="font-semibold text-slate-900">{item.assigneeName}</span>
+                  <span className="font-semibold text-slate-900 dark:text-white">{item.assigneeName}</span>
                 </div>
               </div>
             )}
@@ -137,8 +137,8 @@ export const EventDetailModal: React.FC<Props> = ({
             {/* Description */}
             {item.description && (
               <div className="space-y-1 pt-1">
-                <span className="text-xs font-semibold text-slate-500 uppercase">Notes & Info</span>
-                <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100 whitespace-pre-wrap">
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Notes & Info</span>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 whitespace-pre-wrap">
                   {item.description}
                 </p>
               </div>
@@ -146,21 +146,21 @@ export const EventDetailModal: React.FC<Props> = ({
           </div>
 
           {/* Action buttons */}
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
             {isCompanyEvent && canManage ? (
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => {
                     if (onEdit && item.entityId) onEdit(item.entityId);
                   }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl transition-all cursor-pointer"
                 >
                   <Edit3 size={13} />
                   <span>Edit</span>
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 border border-rose-200/50 dark:border-rose-900/50 rounded-xl transition-all cursor-pointer"
                 >
                   <Trash2 size={13} />
                   <span>Delete</span>
@@ -180,7 +180,7 @@ export const EventDetailModal: React.FC<Props> = ({
 
             <button
               onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+              className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
             >
               Close
             </button>

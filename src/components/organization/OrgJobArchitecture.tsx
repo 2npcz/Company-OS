@@ -672,13 +672,15 @@ export const OrgJobArchitecture: React.FC<OrgJobArchitectureProps> = ({ canWrite
                         <div className="flex items-center gap-1">
                           <button
                             onClick={() => handleOpenRoleModal(role)}
-                            className="p-1.5 text-slate-400 hover:text-primary rounded-lg"
+                            className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
+                            title="Edit Role"
                           >
                             <Edit3 size={15} />
                           </button>
                           <button
                             onClick={() => handleDeleteRole(role)}
-                            className="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg"
+                            className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-all cursor-pointer"
+                            title="Delete Role"
                           >
                             <Trash2 size={15} />
                           </button>
@@ -856,13 +858,15 @@ export const OrgJobArchitecture: React.FC<OrgJobArchitectureProps> = ({ canWrite
                           <div className="flex items-center gap-1">
                             <button
                               onClick={() => handleOpenSkillModal(skill)}
-                              className="p-1 text-slate-400 hover:text-primary"
+                              className="p-1 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-all cursor-pointer"
+                              title="Edit Skill"
                             >
                               <Edit3 size={14} />
                             </button>
                             <button
                               onClick={() => handleDeleteSkill(skill)}
-                              className="p-1 text-slate-400 hover:text-rose-500"
+                              className="p-1 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-md transition-all cursor-pointer"
+                              title="Delete Skill"
                             >
                               <Trash2 size={14} />
                             </button>
@@ -923,13 +927,15 @@ export const OrgJobArchitecture: React.FC<OrgJobArchitectureProps> = ({ canWrite
                         <div className="flex items-center gap-1">
                           <button
                             onClick={() => handleOpenCompetencyModal(comp)}
-                            className="p-1.5 text-slate-400 hover:text-primary"
+                            className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
+                            title="Edit Competency"
                           >
                             <Edit3 size={15} />
                           </button>
                           <button
                             onClick={() => handleDeleteCompetency(comp)}
-                            className="p-1.5 text-slate-400 hover:text-rose-500"
+                            className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-all cursor-pointer"
+                            title="Delete Competency"
                           >
                             <Trash2 size={15} />
                           </button>
@@ -996,13 +1002,15 @@ export const OrgJobArchitecture: React.FC<OrgJobArchitectureProps> = ({ canWrite
                           <div className="flex items-center gap-1">
                             <button
                               onClick={() => handleOpenKPIModal(kpi)}
-                              className="p-1 text-slate-400 hover:text-primary"
+                              className="p-1 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-all cursor-pointer"
+                              title="Edit KPI"
                             >
                               <Edit3 size={14} />
                             </button>
                             <button
                               onClick={() => handleDeleteKPI(kpi)}
-                              className="p-1 text-slate-400 hover:text-rose-500"
+                              className="p-1 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-md transition-all cursor-pointer"
+                              title="Delete KPI"
                             >
                               <Trash2 size={14} />
                             </button>

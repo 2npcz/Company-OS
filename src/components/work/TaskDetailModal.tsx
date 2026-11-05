@@ -551,7 +551,8 @@ export const TaskDetailModal: React.FC<Props> = ({
                       </label>
                       <button
                         onClick={() => handleDeleteSubtask(st.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-red-600 rounded transition-opacity"
+                        className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-all cursor-pointer"
+                        title="Delete Subtask"
                       >
                         <Trash2 size={14} />
                       </button>

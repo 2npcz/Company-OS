@@ -221,7 +221,7 @@ export const ReEnableSetupGuide: React.FC<{ userRole: string }> = ({ userRole })
   return (
     <button
       onClick={reEnable}
-      className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 transition-all"
+      className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-xs"
     >
       <RotateCcw size={14} />
       Re-enable Setup Guide

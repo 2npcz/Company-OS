@@ -82,8 +82,8 @@ export const OrgShifts: React.FC<Props> = ({
                   <span className="text-[9px] font-bold">{getAssignedCount(shift.id)} assigned</span>
                 </div>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button onClick={() => onEditShift(i)} className="p-1.5 text-slate-400 hover:text-primary"><Edit size={14}/></button>
-                  <button onClick={() => onDeleteShift(i)} className="p-1.5 text-slate-400 hover:text-rose-500"><Trash2 size={14}/></button>
+                  <button onClick={() => onEditShift(i)} title="Edit Shift" className="p-2 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 rounded-xl transition-all cursor-pointer"><Edit size={14}/></button>
+                  <button onClick={() => onDeleteShift(i)} title="Delete Shift" className="p-2 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-xl transition-all cursor-pointer"><Trash2 size={14}/></button>
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@ export const OrgShifts: React.FC<Props> = ({
                   {ov.reason && <span className="ml-2 text-slate-300">— {ov.reason}</span>}
                 </p>
               </div>
-              <button onClick={() => onDeleteOverride(i)} className="p-2 text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all flex-shrink-0">
+              <button onClick={() => onDeleteOverride(i)} title="Delete Override" className="p-2 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-xl opacity-0 group-hover:opacity-100 transition-all flex-shrink-0 cursor-pointer">
                 <Trash2 size={16} />
               </button>
             </div>

@@ -70,7 +70,8 @@ export const AnnouncementCard: React.FC<Props> = ({
               {onEdit && (
                 <button
                   onClick={() => onEdit(announcement)}
-                  className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary-light rounded-lg transition-colors"
+                  title="Edit Announcement"
+                  className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
                 >
                   <Pencil size={14} />
                 </button>
@@ -78,7 +79,8 @@ export const AnnouncementCard: React.FC<Props> = ({
               {onDelete && (
                 <button
                   onClick={() => onDelete(announcement.id)}
-                  className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
+                  title="Delete Announcement"
+                  className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-all cursor-pointer"
                 >
                   <Trash2 size={14} />
                 </button>

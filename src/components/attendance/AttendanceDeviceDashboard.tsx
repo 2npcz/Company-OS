@@ -563,14 +563,14 @@ export const AttendanceDeviceDashboard: React.FC<AttendanceDeviceDashboardProps>
                             <div className="flex items-center gap-1">
                               <button
                                 onClick={() => handleOpenDeviceModal(device)}
-                                className="p-1.5 text-slate-400 hover:text-primary dark:hover:text-cyan-400 rounded-lg transition-colors"
+                                className="p-2 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all cursor-pointer"
                                 title="Edit Configuration"
                               >
                                 <Edit3 size={15} />
                               </button>
                               <button
                                 onClick={() => handleDeleteDevice(device)}
-                                className="p-1.5 text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 rounded-lg transition-colors"
+                                className="p-2 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-xl transition-all cursor-pointer"
                                 title="Delete Terminal"
                               >
                                 <Trash2 size={15} />
@@ -652,7 +652,7 @@ export const AttendanceDeviceDashboard: React.FC<AttendanceDeviceDashboardProps>
                             <td className="py-3 px-4 text-right">
                               <button
                                 onClick={() => handleDeleteMapping(m)}
-                                className="p-1.5 text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors"
+                                className="p-2 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-xl transition-all cursor-pointer"
                                 title="Remove mapping"
                               >
                                 <Trash2 size={15} />

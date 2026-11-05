@@ -168,19 +168,19 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
       )}
 
       {/* Main Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900/90 p-6 md:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 flex-shrink-0">
             <CalendarIcon size={24} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold text-slate-900">Company Calendar</h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700">
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Company Calendar</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
                 EcoGlobal OS
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               EcoGlobal Trading BD • Unified Holidays, Events, Leaves & Project Deadlines
             </p>
           </div>
@@ -192,7 +192,7 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           <div className="flex items-center bg-slate-50 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200 dark:border-slate-800">
             <button
               onClick={prevMonth}
-              className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
               title="Previous Month"
             >
               <ChevronLeft size={18} />
@@ -202,7 +202,7 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
             </span>
             <button
               onClick={nextMonth}
-              className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
               title="Next Month"
             >
               <ChevronRight size={18} />
@@ -211,16 +211,16 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
           <button
             onClick={jumpToToday}
-            className="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors"
+            className="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-200/60 dark:border-slate-700/60 transition-colors cursor-pointer"
           >
             Today
           </button>
 
           {/* Grid vs Agenda switcher */}
-          <div className="flex items-center bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200/40 dark:border-slate-800">
+          <div className="flex items-center bg-slate-100 dark:bg-slate-900/60 p-1 rounded-xl border border-slate-200/60 dark:border-slate-800">
             <button
               onClick={() => setViewMode('GRID')}
-              className={`p-1.5 rounded-lg transition-colors ${
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'GRID' ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-cyan-400 shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
               }`}
               title="Month Grid View"
@@ -229,7 +229,7 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
             </button>
             <button
               onClick={() => setViewMode('AGENDA')}
-              className={`p-1.5 rounded-lg transition-colors ${
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'AGENDA' ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-cyan-400 shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
               }`}
               title="Agenda List View"
@@ -241,16 +241,16 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           <button
             onClick={() => loadData(true)}
             disabled={refreshing}
-            className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors"
+            className="p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
             title="Refresh calendar"
           >
-            <RefreshCw size={18} className={refreshing ? 'animate-spin text-indigo-600' : ''} />
+            <RefreshCw size={18} className={refreshing ? 'animate-spin text-indigo-600 dark:text-cyan-400' : ''} />
           </button>
 
           <button
             onClick={() => handleOpenCreateEvent()}
             disabled={!canWrite}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-md shadow-indigo-100 transition-all disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-md shadow-indigo-500/20 transition-all disabled:opacity-50 cursor-pointer"
           >
             <Plus size={16} />
             <span>New Event</span>
@@ -262,10 +262,10 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
       <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
         <button
           onClick={() => setSelectedCategory('ALL')}
-          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
             selectedCategory === 'ALL'
               ? 'bg-slate-900 text-white dark:bg-cyan-500 dark:text-slate-950 shadow-sm'
-              : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700/60'
+              : 'bg-white dark:bg-slate-900/80 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-800'
           }`}
         >
           <span>All Items</span>
@@ -274,10 +274,10 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
         <button
           onClick={() => setSelectedCategory('EVENT')}
-          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
             selectedCategory === 'EVENT'
               ? 'bg-indigo-600 text-white shadow-sm'
-              : 'bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-200 dark:bg-slate-800/80 dark:text-indigo-400 dark:border-indigo-800/40'
+              : 'bg-white dark:bg-slate-900/80 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-indigo-500" />
@@ -286,10 +286,10 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
         <button
           onClick={() => setSelectedCategory('HOLIDAY')}
-          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
             selectedCategory === 'HOLIDAY'
               ? 'bg-amber-600 text-white shadow-sm'
-              : 'bg-white text-amber-800 hover:bg-amber-50 border border-amber-200 dark:bg-slate-800/80 dark:text-amber-400 dark:border-amber-800/40'
+              : 'bg-white dark:bg-slate-900/80 text-amber-800 dark:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-950/40 border border-amber-200/70 dark:border-amber-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-amber-500" />
@@ -298,10 +298,10 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
         <button
           onClick={() => setSelectedCategory('LEAVE')}
-          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
             selectedCategory === 'LEAVE'
               ? 'bg-emerald-600 text-white shadow-sm'
-              : 'bg-white text-emerald-800 hover:bg-emerald-50 border border-emerald-200 dark:bg-slate-800/80 dark:text-emerald-400 dark:border-emerald-800/40'
+              : 'bg-white dark:bg-slate-900/80 text-emerald-800 dark:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 border border-emerald-200/70 dark:border-emerald-800/40'
           }`}
         >
           <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -310,13 +310,13 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
         <button
           onClick={() => setSelectedCategory('WORK')}
-          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 ${
+          className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
             selectedCategory === 'WORK'
-              ? 'bg-purple-600 text-white shadow-sm'
-              : 'bg-white text-purple-800 hover:bg-purple-50 border border-purple-200 dark:bg-slate-800/80 dark:text-purple-400 dark:border-purple-800/40'
+              ? 'bg-sky-600 text-white shadow-sm'
+              : 'bg-white dark:bg-slate-900/80 text-sky-800 dark:text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/40 border border-sky-200/70 dark:border-sky-800/40'
           }`}
         >
-          <span className="w-2 h-2 rounded-full bg-purple-500" />
+          <span className="w-2 h-2 rounded-full bg-sky-500" />
           <span>Work Deadlines & Milestones</span>
         </button>
       </div>
@@ -343,13 +343,13 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
         {/* Quick Insights Sidebar (1 col) */}
         <div className="space-y-4">
           {/* Out of Office Today Card */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
+          <div className="bg-white dark:bg-slate-900/90 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 transition-colors">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wide flex items-center gap-1.5">
-                <User size={14} className="text-emerald-600" />
+              <h3 className="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wide flex items-center gap-1.5">
+                <User size={14} className="text-emerald-600 dark:text-emerald-400" />
                 <span>Out of Office Today</span>
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60">
                 {outOfOfficeToday.length}
               </span>
             </div>
@@ -359,11 +359,11 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
                 <div
                   key={leave.id}
                   onClick={() => setSelectedItem(leave)}
-                  className="p-2.5 bg-emerald-50/50 hover:bg-emerald-50 rounded-xl border border-emerald-100 transition-colors cursor-pointer text-xs"
+                  className="p-3 bg-emerald-50/70 dark:bg-emerald-950/30 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/40 rounded-2xl border border-emerald-200/70 dark:border-emerald-800/40 transition-colors cursor-pointer text-xs"
                 >
-                  <span className="font-bold text-emerald-950 block">{leave.title}</span>
+                  <span className="font-bold text-emerald-900 dark:text-emerald-200 block">{leave.title}</span>
                   {leave.description && (
-                    <span className="text-emerald-700/80 line-clamp-1 mt-0.5">
+                    <span className="text-emerald-700 dark:text-emerald-400/80 line-clamp-1 mt-0.5">
                       {leave.description}
                     </span>
                   )}
@@ -371,7 +371,7 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
               ))}
 
               {outOfOfficeToday.length === 0 && (
-                <p className="text-xs text-slate-400 italic py-1">
+                <p className="text-xs text-slate-400 dark:text-slate-500 italic py-1">
                   Full team active. No approved leaves today.
                 </p>
               )}
@@ -379,9 +379,9 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
           </div>
 
           {/* Upcoming Bangladesh Holidays */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-3">
-            <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wide flex items-center gap-1.5">
-              <PartyPopper size={14} className="text-amber-600" />
+          <div className="bg-white dark:bg-slate-900/90 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 transition-colors">
+            <h3 className="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wide flex items-center gap-1.5">
+              <PartyPopper size={14} className="text-amber-600 dark:text-amber-400" />
               <span>Upcoming Public Holidays</span>
             </h3>
 
@@ -389,23 +389,23 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
               {upcomingHolidays.map(hol => (
                 <div
                   key={hol.date}
-                  className="p-2.5 bg-amber-50/40 rounded-xl border border-amber-200/60 text-xs space-y-0.5"
+                  className="p-3 bg-amber-50/70 dark:bg-amber-950/30 rounded-2xl border border-amber-200/70 dark:border-amber-800/40 text-xs space-y-0.5"
                 >
-                  <div className="flex items-center justify-between font-bold text-amber-900">
+                  <div className="flex items-center justify-between font-bold text-amber-900 dark:text-amber-200">
                     <span>{hol.name}</span>
-                    <span className="text-[10px] text-amber-700">
+                    <span className="text-[10px] text-amber-700 dark:text-amber-400 font-semibold">
                       {new Date(hol.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
-                  <span className="text-[10px] text-amber-600 block">{hol.type} Holiday</span>
+                  <span className="text-[10px] text-amber-600 dark:text-amber-400/80 block">{hol.type} Holiday</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Quick Schedule Notice */}
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs text-slate-500 space-y-1">
-            <span className="font-bold text-slate-700 block">EcoGlobal Standard Schedule</span>
+          <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 space-y-1">
+            <span className="font-bold text-slate-700 dark:text-slate-200 block">EcoGlobal Standard Schedule</span>
             <p className="leading-relaxed">
               Standard working hours: 09:00 — 18:00 (Asia/Dhaka). Weekly weekend observed on <strong>Friday</strong>.
             </p>

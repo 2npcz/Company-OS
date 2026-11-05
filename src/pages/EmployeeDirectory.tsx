@@ -699,17 +699,17 @@ const EmployeeDirectory: React.FC<EmployeeDirectoryProps> = ({ user, selectedEmp
                 </div>
                 {/* Action buttons on their own row so names never break */}
                 {isAdmin && (
-                  <div className="flex gap-0.5 mt-2 bg-slate-50/80 p-1 rounded-lg self-start" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex gap-1 mt-2 bg-slate-100/80 dark:bg-slate-800/90 border border-slate-200/60 dark:border-slate-700/60 p-1 rounded-xl self-start" onClick={(e) => e.stopPropagation()}>
                     {!emp.verified && (
-                      <button onClick={() => handleActivate(emp)} title="Verify & activate account" className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all"><BadgeCheck size={14} /></button>
+                      <button onClick={() => handleActivate(emp)} title="Verify & activate account" className="p-1.5 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 rounded-lg transition-all cursor-pointer"><BadgeCheck size={14} /></button>
                     )}
-                    <button onClick={() => handleOpenEdit(emp)} className="p-1.5 text-slate-400 hover:text-primary hover:bg-white rounded-md transition-all"><Edit size={14} /></button>
+                    <button onClick={() => handleOpenEdit(emp)} title="Edit Employee" className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-cyan-400 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition-all cursor-pointer"><Edit size={14} /></button>
                     {emp.status === 'INACTIVE' ? (
-                      <button onClick={() => handleReactivate(emp)} title="Reactivate employee" className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all"><UserCheck size={14} /></button>
+                      <button onClick={() => handleReactivate(emp)} title="Reactivate employee" className="p-1.5 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 rounded-lg transition-all cursor-pointer"><UserCheck size={14} /></button>
                     ) : (
-                      <button onClick={() => handleOffboard(emp)} title="Offboard employee" className="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-md transition-all"><UserX size={14} /></button>
+                      <button onClick={() => handleOffboard(emp)} title="Offboard employee" className="p-1.5 text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/60 rounded-lg transition-all cursor-pointer"><UserX size={14} /></button>
                     )}
-                    <button onClick={() => handleDelete(emp)} className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition-all"><Trash2 size={14} /></button>
+                    <button onClick={() => handleDelete(emp)} title="Delete Employee" className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/60 rounded-lg transition-all cursor-pointer"><Trash2 size={14} /></button>
                   </div>
                 )}
               </div>

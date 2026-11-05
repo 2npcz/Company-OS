@@ -126,7 +126,7 @@ const AdminAllLeaves: React.FC<Props> = ({ requests, onEdit, onRefresh, readOnly
               {!readOnly && (
                 <button
                   onClick={() => onEdit(req)}
-                  className="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-amber-600 hover:border-amber-200 transition-colors"
+                  className="p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-200 dark:hover:border-amber-800/60 hover:bg-amber-50/50 dark:hover:bg-amber-950/30 transition-all cursor-pointer"
                   title="Edit"
                 >
                   <Edit3 size={14} />
@@ -137,7 +137,7 @@ const AdminAllLeaves: React.FC<Props> = ({ requests, onEdit, onRefresh, readOnly
               {!readOnly && (
                 <button
                   onClick={() => setDeleteTarget(req)}
-                  className="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-rose-600 hover:border-rose-200 transition-colors"
+                  className="p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-800/60 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-all cursor-pointer"
                   title="Delete"
                 >
                   <Trash2 size={14} />
