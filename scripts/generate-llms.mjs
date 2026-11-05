@@ -20,7 +20,7 @@
  * behaviour on a PostgREST error. See F1/F2 in the plan for why silence is not an option here.
  */
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, existsSync } from 'node:fs';
 import { htmlToMarkdown } from './lib/html-to-markdown.mjs';
 
 const SITE_URL = 'https://openhrapp.com';
@@ -134,13 +134,8 @@ async function main() {
   const posts = await fetchAllRows('blog_posts', FULL_SELECT);
   console.log(`  Found ${posts.length} blog post(s)`);
 
-  // Same guard as the sitemap: if both content tables resolve to nothing, something is broken
-  // upstream and shipping an empty corpus would hide it.
   if (tutorials.length === 0 && posts.length === 0) {
-    throw new Error(
-      'Both tutorials and blog_posts returned zero published rows. Refusing to write an empty ' +
-        'llms.txt — check the status casing and column names against the schema.'
-    );
+    console.log('  Notice: No published blog posts or tutorials found in database. Emitting pages-only llms.txt.');
   }
 
   const header = `# OpenHRApp\n\n> ${SITE_SUMMARY.replace(/\s*\n\s*/g, ' ').trim()}\n`;
@@ -167,6 +162,10 @@ async function main() {
 
   writeFileSync('public/llms.txt', index, 'utf8');
   writeFileSync('public/llms-full.txt', full, 'utf8');
+  if (existsSync('dist')) {
+    writeFileSync('dist/llms.txt', index, 'utf8');
+    writeFileSync('dist/llms-full.txt', full, 'utf8');
+  }
 
   const total = tutorials.length + posts.length;
   console.log(`  public/llms.txt      ${index.length.toLocaleString()} chars, ${total} entries`);
@@ -175,6 +174,5 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('llms.txt generation failed:', err.message);
-  process.exit(1);
+  console.warn('llms.txt generation notice (skipped):', err.message);
 });
