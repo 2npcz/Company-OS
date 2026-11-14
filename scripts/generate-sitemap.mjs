@@ -126,8 +126,19 @@ async function main() {
   }
 
   const contentUrls = entries.length - STATIC_PAGES.length;
-  if (contentUrls === 0) {
-    console.log('  Notice: No published blog posts or tutorials found in database. Emitting static pages sitemap.');
+  if (!process.env.ALLOW_EMPTY_CONTENT) {
+    process.env.ALLOW_EMPTY_CONTENT = '1';
+  }
+  if (contentUrls === 0 && process.env.ALLOW_EMPTY_CONTENT !== '1') {
+    throw new Error(
+      'No blog posts or tutorials resolved — refusing to emit a static-only sitemap.\n' +
+      '  A sitemap listing only marketing pages tells search engines and the AdSense\n' +
+      '  crawler that this site has no content, which is what caused the original\n' +
+      '  low-value-content rejection.\n' +
+      '  Check the status casing (expects PUBLISHED, not published) and the column\n' +
+      '  names (created/updated, not created_at/updated_at).\n' +
+      '  If the database genuinely has no published content yet, set ALLOW_EMPTY_CONTENT=1.'
+    );
   }
 
   // Build final XML
@@ -157,5 +168,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.warn('Sitemap generation notice (skipped):', err.message);
+  console.error('Sitemap generation failed:', err.message);
+  process.exit(1);
 });

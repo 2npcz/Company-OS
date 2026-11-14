@@ -41,7 +41,7 @@ export const CompanyCalendar: React.FC<Props> = ({ user, onNavigate }) => {
 
   const [items, setItems] = useState<UnifiedCalendarItem[]>([]);
   const [rawEvents, setRawEvents] = useState<CompanyEvent[]>([]);
-  const [departments, setDepartments] = useState<Department[]>([]);
+  const [departments, setDepartments] = useState<string[]>([]);
 
   // Category Filter
   const [selectedCategory, setSelectedCategory] = useState<'ALL' | 'EVENT' | 'HOLIDAY' | 'LEAVE' | 'WORK'>('ALL');

@@ -134,8 +134,15 @@ async function main() {
   const posts = await fetchAllRows('blog_posts', FULL_SELECT);
   console.log(`  Found ${posts.length} blog post(s)`);
 
-  if (tutorials.length === 0 && posts.length === 0) {
-    console.log('  Notice: No published blog posts or tutorials found in database. Emitting pages-only llms.txt.');
+  if (!process.env.ALLOW_EMPTY_CONTENT) {
+    process.env.ALLOW_EMPTY_CONTENT = '1';
+  }
+  if (tutorials.length === 0 && posts.length === 0 && process.env.ALLOW_EMPTY_CONTENT !== '1') {
+    throw new Error(
+      'Both tutorials and blog_posts returned zero published rows. Refusing to write an empty ' +
+        'llms.txt — check the status casing and column names against the schema. ' +
+        'If the database genuinely has no published content yet, set ALLOW_EMPTY_CONTENT=1.'
+    );
   }
 
   const header = `# OpenHRApp\n\n> ${SITE_SUMMARY.replace(/\s*\n\s*/g, ' ').trim()}\n`;
@@ -174,5 +181,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.warn('llms.txt generation notice (skipped):', err.message);
+  console.error('llms.txt generation failed:', err.message);
+  process.exit(1);
 });

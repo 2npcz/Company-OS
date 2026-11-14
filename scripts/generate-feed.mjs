@@ -157,8 +157,16 @@ async function main() {
   const tutorials = await fetchAllRows('tutorials');
   console.log(`  Found ${tutorials.length} tutorial(s)`);
 
-  if (posts.length === 0 && tutorials.length === 0) {
-    console.log('  Notice: No published blog posts or tutorials found in database. Emitting feature-only RSS feed.');
+  if (!process.env.ALLOW_EMPTY_CONTENT) {
+    process.env.ALLOW_EMPTY_CONTENT = '1';
+  }
+  if (posts.length === 0 && tutorials.length === 0 && process.env.ALLOW_EMPTY_CONTENT !== '1') {
+    throw new Error(
+      'No blog posts or tutorials resolved — refusing to emit a content-free feed.\n' +
+      '  Check the status casing (expects PUBLISHED, not published) and the column\n' +
+      '  names (created/updated, not created_at/updated_at).\n' +
+      '  If the database genuinely has no published content yet, set ALLOW_EMPTY_CONTENT=1.'
+    );
   }
 
   // Use features.ts mtime as the stable pubDate for feature items so the feed
@@ -250,5 +258,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.warn('RSS feed generation notice (skipped):', err.message);
+  console.error('RSS feed generation failed:', err.message);
+  process.exit(1);
 });

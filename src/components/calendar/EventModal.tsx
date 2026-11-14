@@ -7,7 +7,7 @@ interface Props {
   mode: 'create' | 'edit';
   event?: CompanyEvent | null;
   defaultDate?: string;
-  departments: Department[];
+  departments?: any[];
   onClose: () => void;
   onSaved: () => void;
 }
